@@ -1,0 +1,1195 @@
+<div id="billingContainer">
+  <section class="bg-white pb-8 pt-4 antialiased md:pb-16 md:pt-8">
+    <div class="mx-auto max-w-[1400px] px-4 2xl:px-0">
+      <div
+        #forms
+        class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8 relative"
+      >
+        <!--  max-h-[75vh] overflow-y-auto -->
+        <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+          <ol
+            class="items-center flex w-full text-center text-sm font-medium text-gray-500 sm:text-base mb-8"
+          >
+            <li
+              class="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+            >
+              <span
+                class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] dark:after:text-gray-500 sm:after:hidden"
+              >
+                <svg
+                  class="me-2 h-4 w-4 sm:h-5 sm:w-5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                Carrito
+              </span>
+            </li>
+
+            <li
+              class="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+            >
+              <span
+                class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden"
+              >
+                <svg
+                  class="me-2 h-4 w-4 sm:h-5 sm:w-5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                Facturación
+              </span>
+            </li>
+
+            <li class="flex shrink-0 items-center">
+              <svg
+                class="me-2 h-4 w-4 sm:h-5 sm:w-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              Confirmación
+            </li>
+          </ol>
+
+          @if (!isEskeleton()) {
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold text-md text-gray-700"
+                >Dirección de envío</span
+              >
+              <div
+                class="inline-flex items-center cursor-pointer hover:underline"
+              >
+                <span (click)="modifyDireccion()" class="text-sm text-gray-700"
+                  >Cambiar dirección</span
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  version="1.1"
+                  viewBox="0 0 1024 1024"
+                  width="1em"
+                  height="1em"
+                  fill="currentColor"
+                  role="img"
+                  class="Z53yr1qx"
+                >
+                  <path
+                    d="M320 215.8c-18.2-18.9-17.6-49 1.3-67.2 17-16.4 43.1-17.5 61.5-3.8l5.8 5.1 315.4 328.7c15.7 16.3 17.4 41.1 5.3 59.3l-5.2 6.5-315.5 329.6c-18.2 19-48.3 19.6-67.2 1.5-17.1-16.3-19.3-42.4-6.4-61.2l4.9-6 284-296.6-283.9-295.9z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          } @else {
+            <div class="flex justify-between mb-2 animate-pulse">
+              <span class="text-md text-transparent rounded-md bg-gray-200">
+                <span class="invisible">Dirección de envío</span>
+              </span>
+              <div class="inline-flex items-center hover:underline">
+                <span class="text-sm text-transparent rounded-md bg-gray-200">
+                  <span class="invisible">Cambiar dirección</span>
+                </span>
+              </div>
+            </div>
+          }
+
+          @if (!isEskeleton()) {
+            <div
+              (click)="modifyDireccion()"
+              class="w-full bg-white border border-gray-200 cursor-pointer rounded-md relative"
+            >
+              <div class="flex justify-between p-4">
+                <div class="flex flex-col">
+                  <div class="inline-flex flex-wrap">
+                    <span class="font-semibold text-base text-gray-800">{{
+                      userData?.fullName
+                        ? userData?.fullName
+                        : userData?.name + " " + userData?.lastName
+                    }}</span>
+                    <span>&nbsp;</span>
+                    @if (userData?.country && userData?.country?.code) {
+                      <span class="text-gray-600"
+                        >({{
+                          this.findAreaCodeByCountryCode(
+                            userData?.country?.code || "MX"
+                          )
+                        }}&nbsp;{{
+                          userData?.phone ? userData?.phone : ""
+                        }})</span
+                      >
+                    } @else {
+                      <span class="text-gray-600"
+                        >({{ userData?.phone ? userData?.phone : "" }})</span
+                      >
+                    }
+                  </div>
+                  <span
+                    class="inline-flex flex-wrap text-base font-semibold text-orange-500"
+                  >
+                    @if (userData?.address) {
+                      <span>{{
+                        userData?.address ? userData?.address : "Sin dirección"
+                      }}</span>
+                      <span>,&nbsp;</span>
+                      <span
+                        >{{
+                          userData?.country?.code
+                            ? userData?.country?.code
+                            : ""
+                        }}-{{
+                          userData?.zipCode ? userData?.zipCode : ""
+                        }}</span
+                      >
+                    } @else {
+                      <span>Sin dirección</span>
+                    }
+                  </span>
+                  <span
+                    class="inline-flex flex-wrap text-base font-semibold text-gray-700"
+                  >
+                    @if (userData?.city) {
+                      <span>{{ userData?.city ? userData?.city : "" }}</span>
+                      <span>,&nbsp;</span>
+                      <span
+                        >{{
+                          userData?.state?.name ? userData?.state?.name : ""
+                        }}
+                        ({{
+                          userData?.state?.code ? userData?.state?.code : ""
+                        }})</span
+                      >
+                      <span>,&nbsp;</span>
+                      <span>{{
+                        userData?.country?.name ? userData?.country?.name : ""
+                      }}</span>
+                    } @else {
+                      <span class="text-gray-600"
+                        >Por favor, establezca una dirección de envío. 🌎</span
+                      >
+                    }
+                  </span>
+                </div>
+
+                <div
+                  class="hover:bg-gray-200 rounded-full h-8 w-8 flex items-center justify-center"
+                >
+                  <svg
+                    class="h-4 w-4 text-gray-600"
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    fill="currentColor"
+                    role="img"
+                  >
+                    <path
+                      d="M480 153.4c21.2 0 38.4 17.2 38.4 38.4 0 19.1-13.9 34.9-32.2 37.9l-6.2 0.5-234.7 0c-40.9 0-74.5 31.1-78.5 70.8l-0.4 8.1 0 469.3c0 40.9 31.1 74.5 70.9 78.6l8 0.4 469.4 0c40.9 0 74.5-31.1 78.5-70.9l0.4-8.1 0-234.6c0-21.2 17.2-38.4 38.4-38.4 19.1 0 34.9 13.9 37.9 32.1l0.5 6.3 0 234.6c0 82.6-64.3 150.1-145.5 155.4l-10.2 0.4-469.4 0c-82.6 0-150.1-64.3-155.4-145.5l-0.3-10.3 0-469.3c0-82.6 64.3-150.1 145.5-155.4l10.2-0.3 234.7 0z m402-5.3c15 15 15 39.3 0 54.3l-352.9 353c-15 15-39.3 15-54.3 0-15-15-15-39.3 0-54.3l352.9-353c15-15 39.3-15 54.3 0z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- absolute top-0 h-full -->
+              <div class="absolute top-0 h-full w-full">
+                <!-- w-1 h-full -->
+                <img
+                  class="object-cover w-1 h-full rounded-tl-md rounded-bl-md"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAARlCAMAAACtPUadAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAPUExURf///xWn1tojP+2Rn4rT6zXCHwQAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACmSURBVFhH7dQxDoQwDETRJHD/M6+dGRpXFCtLwHfz+kTzx9z3UE4hhwzSJNyMU7z/DrHkkksGaRJuFvyLQ8h47TQfP0zCzfVD7z9vbsopY59pzjVMws2tvcMdqGI5b44qtkMVy3lzVLEdqljOm6OK7VDFct4cVWyHKpbz5qhiO1SxnDdHFduhiuW8OarYDlUs581RxXaoYjlvjiq2QxXLeXPfq+KcP5A3GIuAJ2ctAAAAAElFTkSuQmCC"
+                  alt=""
+                  srcset=""
+                />
+              </div>
+            </div>
+          } @else {
+            <div class="w-full animate-pulse bg-gray-50 rounded-md">
+              <div class="flex justify-between p-4">
+                <div class="flex flex-col space-y-1">
+                  <div class="bg-gray-200 rounded-md inline-flex flex-wrap">
+                    <span class="text-base invisible"
+                      >Nombre completo del cliente</span
+                    >
+                  </div>
+                  <span
+                    class="bg-gray-200 inline-flex flex-wrap text-base rounded-md text-transparent"
+                  >
+                    <span class="invisible"
+                      >Direccion completa del cliente</span
+                    >
+                  </span>
+                  <span
+                    class="bg-gray-200 inline-flex flex-wrap text-base rounded-md font-semibold text-transparent"
+                  >
+                    <span class="invisible">Sin dirección</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 -->
+          <div
+            class="flex flex-col flex-wrap md:flex-row lg:flex-col xl:flex-row gap-4 xl:gap-x-20"
+          >
+            <!-- space-y-4 my-8 -->
+            <div class="flex-1 space-y-4 mt-8">
+              @if (!isEskeleton()) {
+                <h3 class="text-lg font-semibold text-gray-700">
+                  Métodos de entrega
+                </h3>
+
+                <!-- grid grid-cols-1 gap-4 md:grid-cols-3 -->
+                <div
+                  class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-4"
+                >
+                  <label
+                    (click)="calculateShippingDates('Standard', 4, 10)"
+                    for="radioStandard"
+                    class="cursor-pointer relative"
+                  >
+                    <input
+                      class="peer hidden"
+                      id="radioStandard"
+                      type="radio"
+                      name="radio"
+                      checked
+                    />
+                    <div
+                      class="bg-white rounded-lg border border-gray-200 peer-checked:border-2 peer-checked:border-gray-400"
+                    >
+                      <div class="flex flex-col p-4">
+                        <span class="font-semibold text-slate-800"
+                          >Standard - FedEx</span
+                        >
+                        <div class="flex flex-col justify-between space-y-2">
+                          <span class="text-slate-700"
+                            >4 a 10 días hábiles</span
+                          >
+                          <span class="font-semibold text-slate-800"
+                            >Gratis</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <svg
+                      class="absolute h-5 w-5 top-4 right-4 invisible peer-checked:visible"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="#334155"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </label>
+
+                  <label
+                    (click)="calculateShippingDates('Express', 2, 5)"
+                    for="radioExpress"
+                    class="cursor-pointer relative"
+                  >
+                    <input
+                      class="peer hidden"
+                      id="radioExpress"
+                      type="radio"
+                      name="radio"
+                    />
+                    <div
+                      class="bg-white rounded-lg border border-gray-200 peer-checked:border-2 peer-checked:border-gray-400"
+                    >
+                      <div class="flex flex-col p-4">
+                        <span class="font-semibold text-slate-800"
+                          >Express - DHL</span
+                        >
+                        <div class="flex flex-col justify-between space-y-2">
+                          <span class="text-slate-700">2 a 5 días hábiles</span>
+                          <span class="font-semibold text-slate-800"
+                            >MX$200.00</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <svg
+                      class="absolute h-5 w-5 top-4 right-4 invisible peer-checked:visible"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="#334155"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </label>
+                </div>
+              } @else {
+                <h3
+                  class="animate-pulse bg-gray-200 w-48 rounded-md text-lg text-transparent"
+                >
+                  <span class="invisible">Métodos de entrega</span>
+                </h3>
+
+                <!-- grid grid-cols-1 gap-4 md:grid-cols-3 -->
+                <div
+                  class="animate-pulse bg-gray-50 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1 gap-4"
+                >
+                  <label>
+                    <div class="rounded-lg border bg-gray-200">
+                      <div class="flex flex-col p-4 text-transparent">
+                        <span class="invisible">Standard - FedEx</span>
+                        <div class="flex flex-col justify-between space-y-2">
+                          <span class="invisible">4 a 10 días hábiles</span>
+                          <span class="invisible">Gratis</span>
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+
+                  <label>
+                    <div class="rounded-lg border bg-gray-200">
+                      <div class="flex flex-col p-4 text-transparent">
+                        <span class="invisible">Express - DHL</span>
+                        <div class="flex flex-col justify-between space-y-2">
+                          <span class="invisible">2 a 5 días hábiles</span>
+                          <span class="invisible">MX$200.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              }
+            </div>
+
+            <!-- space-y-4 md:my-8 lg:my-0 xl:my-8 -->
+            <div class="space-y-4 my-8">
+              @if (!isEskeleton()) {
+                <div class="inline-flex space-x-4">
+                  <h3 class="text-lg font-semibold text-gray-700">
+                    Método de pago
+                  </h3>
+
+                  @if (!currentCardAdded()) {
+                    <div class="inline-flex items-center space-x-2">
+                      @if (verifyIfVisaCard() === "Visa") {
+                        <img
+                          class="h-7 w-auto"
+                          src="/assets/icons/visa.svg"
+                          alt=""
+                        />
+                      } @else {
+                        <img
+                          class="h-7 w-auto dark:flex"
+                          src="/assets/icons/visa-dark.svg"
+                        />
+                      }
+
+                      @if (verifyIfVisaCard() === "Mastercard") {
+                        <img
+                          class="h-7 w-auto"
+                          src="/assets/icons/mastercard.svg"
+                          alt=""
+                        />
+                      } @else {
+                        <img
+                          class="h-7 w-auto dark:flex"
+                          src="/assets/icons/mastercard-dark.svg"
+                        />
+                      }
+                    </div>
+                  }
+                </div>
+
+                @if (currentCardAdded()) {
+                  <!-- w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:max-w-sm lg:p-8 relative -->
+                  <!-- w-96 max-w-sm -->
+                  <div
+                    class="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 relative"
+                    [ngClass]="{ 'opacity-40': modalLoading() }"
+                  >
+                    <div class="flex justify-between items-center">
+                      <div class="flex flex-col">
+                        <div class="flex items-start">
+                          <div class="flex h-5 items-center">
+                            <input
+                              id="currentCard"
+                              aria-describedby="current-card-text"
+                              type="radio"
+                              name="current-card"
+                              value=""
+                              class="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:none"
+                              checked
+                            />
+                          </div>
+
+                          <div class="ms-4">
+                            <label
+                              for="currentCard"
+                              class="font-medium leading-none text-gray-900"
+                            >
+                              {{ analyzeCardDetails(currentCardAdded()).type }}
+                              terminada en
+                              {{
+                                analyzeCardDetails(currentCardAdded()).cardEnd
+                              }}
+                            </label>
+                            <p
+                              id="current-card-text"
+                              class="mt-1 text-sm font-normal text-gray-500"
+                            >
+                              Caducidad {{ currentCardAdded()?.expirationDate }}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="mt-4 flex items-center gap-2">
+                          <button
+                            (click)="deleteCard()"
+                            type="button"
+                            class="font-medium text-sm text-gray-500 hover:text-red-500"
+                          >
+                            Eliminar
+                          </button>
+
+                          <div class="h-3 w-px shrink-0 bg-gray-200"></div>
+
+                          <button
+                          (click)="modifyCard()"
+                            type="button"
+                            class="font-medium text-sm text-gray-500 hover:text-yellow-500"
+                          >
+                            Editar
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        @if (
+                          analyzeCardDetails(currentCardAdded()).type === "Visa"
+                        ) {
+                          <img
+                            class="h-8 w-auto"
+                            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg"
+                            alt=""
+                          />
+                        } @else if (
+                          analyzeCardDetails(currentCardAdded()).type ===
+                          "Mastercard"
+                        ) {
+                          <img
+                            class="h-8 w-auto"
+                            src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg"
+                            alt=""
+                          />
+                        } @else {}
+                      </div>
+                    </div>
+
+                    @if (modalLoading()) {
+                      <div
+                        class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+                          viewBox="0 0 100 101"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill"
+                          />
+                        </svg>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <form
+                    [formGroup]="paymentForm"
+                    (ngSubmit)="addCardSubmit()"
+                    class="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:max-w-sm lg:p-8 relative"
+                    [ngClass]="{ 'opacity-30': modalLoading() }"
+                  >
+                    @if (linkCardError()) {
+                      <div
+                        class="flex justify-between p-4 mb-4 text-sm font-semibold text-gray-700 border border-red-600 rounded-lg shadow-sm focus:outline-none focus:shadow-outline-red modal-fade-in"
+                        role="alert"
+                      >
+                        <div class="flex">
+                          <svg
+                            class="w-5 h-5 mr-2 mt-1"
+                            fill="#dc2626"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-9 3v2h2v-2h-2zm0-8v6h2V5h-2z"
+                            />
+                          </svg>
+                          <!-- <span>Lo sentimos, no se pudo vincular tu tarjeta.</span> -->
+                        </div>
+                        <span class="block sm:inline"
+                          >Ha ocurrido un error al intentar vincular tu tarjeta,
+                          verifica que todos los datos ingresados sean
+                          correctos.</span
+                        >
+                      </div>
+                    }
+
+                    <div class="mb-6 grid grid-cols-2 gap-4">
+                      <div class="col-span-2">
+                        <label
+                          for="newNumbk"
+                          class="mb-2 block text-sm font-medium text-gray-900"
+                        >
+                          Número de tarjeta*
+                        </label>
+                        <input
+                          type="text"
+                          id="newNumbk"
+                          formControlName="newNumbk"
+                          class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                          placeholder="xxxx xxxx xxxx xxxx"
+                          (input)="paymentValidator.formatCardNumber($event)"
+                          (blur)="paymentValidator.onCardNumberBlur()"
+                          (keyup)="handleCardNumberInput($event)"
+                          autocomplete="off"
+                          autocorrect="off"
+                          maxlength="19"
+                          required
+                        />
+
+                        @if (
+                          submitted() && paymentFormCtrl["newNumbk"].errors
+                        ) {
+                          <div class="text-sm text-red-500">
+                            @if (
+                              paymentFormCtrl["newNumbk"].errors["required"]
+                            ) {
+                              <span> El número de tarjeta es requerido. </span>
+                            } @else if (
+                              paymentFormCtrl["newNumbk"].errors["invalidCard"]
+                            ) {
+                              <span> El número de tarjeta no es válido. </span>
+                            } @else if (
+                              paymentFormCtrl["newNumbk"].touched &&
+                              paymentFormCtrl["newNumbk"].errors[
+                                "requiredLength"
+                              ]
+                            ) {
+                              <span>
+                                El número de tarjeta debe tener 16 dígitos.
+                              </span>
+                            }
+                          </div>
+                        }
+                      </div>
+
+                      <div>
+                        <label
+                          for="newExk"
+                          class="mb-2 block text-sm font-medium text-gray-900"
+                          >Expiración*
+                        </label>
+                        <div class="relative">
+                          <input
+                            #inputExp
+                            id="newExk"
+                            formControlName="newExk"
+                            type="text"
+                            class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                            placeholder="12/23"
+                            (input)="
+                              paymentValidator.formatExpirationDate($event)
+                            "
+                            (blur)="paymentValidator.onCardExpBlur()"
+                            (keyup)="handleExpirationInput($event)"
+                            autocomplete="off"
+                            autocorrect="off"
+                            maxlength="5"
+                            required
+                          />
+
+                          @if (
+                            submitted() && paymentFormCtrl["newExk"].errors
+                          ) {
+                            <div class="text-sm text-red-500">
+                              @if (
+                                paymentFormCtrl["newExk"].errors["required"]
+                              ) {
+                                <span>Expiración requerida.</span>
+                              } @else if (
+                                paymentFormCtrl["newExk"].errors["invalidCard"]
+                              ) {
+                                <span>Expiración inválida.</span>
+                              } @else if (
+                                paymentFormCtrl["newExk"].touched &&
+                                paymentFormCtrl["newExk"].errors[
+                                  "requiredLength"
+                                ]
+                              ) {
+                                <span>Expiración incompleta.</span>
+                              }
+                            </div>
+                          }
+                        </div>
+                      </div>
+
+                      <div>
+                        <!-- Ahora mi codigo esta haci pero hover -->
+                        <label
+                          for="newCvk"
+                          class="mb-2 flex items-center gap-1 text-sm font-medium text-gray-900 group"
+                        >
+                          CVV*
+                          <button
+                            class="text-gray-400 hover:text-gray-900 relative"
+                          >
+                            <svg
+                              class="h-4 w-4"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                          <div
+                            id="cvv-desc"
+                            class="absolute z-10 hidden xl:inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 invisible transition-opacity duration-300 group-hover:opacity-100 group-hover:visible left-1/2 -mt-20"
+                          >
+                            Los últimos 3 dígitos en el reverso de la tarjeta
+                          </div>
+                        </label>
+
+                        <input
+                          #inputCvv
+                          type="text"
+                          id="newCvk"
+                          formControlName="newCvk"
+                          aria-describedby="helper-text-explanation"
+                          class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                          placeholder="•••"
+                          minlength="3"
+                          maxlength="3"
+                          (blur)="paymentValidator.onCvvBlur()"
+                          autocomplete="off"
+                          autocorrect="off"
+                          required
+                        />
+
+                        @if (submitted() && paymentFormCtrl["newCvk"].errors) {
+                          <div class="text-sm text-red-500">
+                            @if (paymentFormCtrl["newCvk"].errors["required"]) {
+                              <span>CVV requerido.</span>
+                              <!-- <span>El CVV es requerido.</span> -->
+                            } @else if (
+                              paymentFormCtrl["newCvk"].errors["sameDigits"]
+                            ) {
+                              <span>CVV invalido.</span>
+                              <!-- <span>El CVV no puede tener dígitos iguales.</span> -->
+                            } @else if (
+                              paymentFormCtrl["newCvk"].touched &&
+                              paymentFormCtrl["newCvk"].errors["requiredLength"]
+                            ) {
+                              <span>CVV incompleto.</span>
+                              <!-- <span>El CVV está incompleto.</span> -->
+                            }
+                          </div>
+                        }
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      class="flex w-full items-center justify-center rounded-lg bg-[#051C2C] px-5 py-2.5 text-sm font-medium text-white hover:bg-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-300"
+                    >
+                      Vincular
+                    </button>
+
+                    @if (modalLoading()) {
+                      <div
+                        class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+                          viewBox="0 0 100 101"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill"
+                          />
+                        </svg>
+                      </div>
+                    }
+                  </form>
+                }
+              } @else {
+                <div class="inline-flex space-x-4">
+                  <h3
+                    class="bg-gray-200 rounded-md animate-pulse text-lg text-transparent"
+                  >
+                    <span class="invisible">Método de pago</span>
+                  </h3>
+                </div>
+
+                <form
+                  class="bg-gray-50 animate-pulse w-full rounded-lg p-4 shadow-sm sm:p-6 lg:max-w-sm lg:p-8"
+                >
+                  <div class="mb-6 grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                      <label
+                        class="bg-gray-200 mb-2 block rounded-md text-sm text-transparent"
+                      >
+                        <span class="invisible">Número de tarjeta*</span>
+                      </label>
+                      <div class="h-12 bg-gray-200 rounded-lg w-full"></div>
+                    </div>
+
+                    <div>
+                      <label
+                        class="bg-gray-200 mb-2 block rounded-md text-sm text-transparent"
+                      >
+                        <span class="invisible">Expiración*</span>
+                      </label>
+
+                      <div
+                        class="h-12 bg-gray-200 rounded-lg min-w-[9.5rem]"
+                      ></div>
+                    </div>
+
+                    <div>
+                      <label
+                        class="bg-gray-200 mb-2 block rounded-md text-sm text-transparent"
+                      >
+                        <span class="invisible">CVV*</span>
+                      </label>
+
+                      <div
+                        class="h-12 bg-gray-200 rounded-lg min-w-[9.5rem]"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="flex w-full items-center justify-center rounded-lg bg-gray-200 px-5 py-2.5 text-sm font-medium text-transparent focus:outline-none"
+                    disabled="true"
+                  >
+                    <span class="invisible">Vincular</span>
+                  </button>
+                </form>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+          @if (!isEskeleton()) {
+            <div
+              class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
+            >
+              <p class="text-xl font-semibold text-gray-900">
+                Resumen del pedido
+              </p>
+
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">
+                      Total de artículos:
+                    </dt>
+                    <dd
+                      class="text-base font-medium text-gray-600 line-through"
+                    >
+                      {{ totalPrices().totalOriginalPrice | currency: "MXN" }}
+                    </dd>
+                  </dl>
+
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">
+                      Descuento de artículo(s):
+                    </dt>
+                    <dd class="text-base font-medium text-green-600">
+                      -{{ totalPrices().totalSavings | currency: "MXN" }}
+                    </dd>
+                  </dl>
+
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">Ahorro</dt>
+                    <dd class="text-base font-medium text-green-600">
+                      {{ totalPrices().totalSavingsPercentage.toString() }}%
+                    </dd>
+                  </dl>
+
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">Envio</dt>
+                    <dd class="text-base font-medium text-gray-900">
+                      {{ delivery().deliveryPrice | currency: "MXN" }}
+                    </dd>
+                  </dl>
+                </div>
+
+                <dl
+                  class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+                >
+                  <dt class="text-base font-bold text-gray-900">
+                    Total estimado
+                  </dt>
+                  <dd class="text-base font-bold text-gray-900">
+                    {{
+                      totalPrices().totalOfferPrice + delivery().deliveryPrice
+                        | currency: "MXN"
+                    }}
+                  </dd>
+                </dl>
+
+                <div
+                  class="flex flex-col space-y-1 bg-white border border-orange-500 rounded-md p-1"
+                >
+                  <span class="font-semibold text-center text-orange-500"
+                    >📦 Fechas Estimadas de Envío</span
+                  >
+                  <span class="text-sm text-slate-900"
+                    >La fecha estimada para la entrega de tu pedido podría estar
+                    entre el
+                    <strong class="text-orange-500">{{
+                      delivery().fisrtDate
+                    }}</strong>
+                    y el
+                    <strong class="text-orange-500">{{
+                      delivery().secondDate
+                    }}</strong
+                    >.</span
+                  >
+                </div>
+
+                <!-- <div class="flex space-x-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      version="1.1"
+                      viewBox="0 0 1024 1024"
+                      role="img"
+                      fill="#0a8800"
+                      aria-hidden="true"
+                      class="h-8 w-8 ng-tns-c2161066273-0"
+                    >
+                      <path
+                        d="M742.4 716.8c56.6 0 102.4 45.8 102.4 102.4 0 56.6-45.8 102.4-102.4 102.4-56.6 0-102.4-45.8-102.4-102.4 0-56.6 45.8-102.4 102.4-102.4z m-409.6 0c56.6 0 102.4 45.8 102.4 102.4 0 56.6-45.8 102.4-102.4 102.4-56.6 0-102.4-45.8-102.4-102.4 0-56.6 45.8-102.4 102.4-102.4z m416.2-542.7c38.8 0 70.2 31.4 70.2 70.2l0 62.1 153.7 64.4c26.1 10.9 43.1 36.5 43.1 64.7l0 241.1c0 38.8-31.4 70.2-70.2 70.2l-67.9 0c-25.9-48.3-76.8-81.2-135.5-81.2-63.8 0-118.6 38.9-141.8 94.4l-126 0c-23.2-55.4-77.9-94.4-141.8-94.4-63.8 0-118.6 38.9-141.8 94.4l-10.7 0c-38.8 0-70.2-31.4-70.2-70.2l-0.1-126.6-66.1 0c-24.2 0-43.9-19.6-43.9-43.9l0-14.6c0-24.2 19.6-43.9 43.9-43.9l250.5 0c49.5 0 89.6-40.1 89.6-89.6 0-49.5-40.1-89.6-89.6-89.6l-179.2 0c-1.7 0-3.5 0-5.2 0.1l0.1-37.4c0-38.8 31.4-70.2 70.2-70.2l568.7 0z m70.2 235.5l0 153.6 66.7 0c18.4 0 35.5-13.2 35.5-31.3l0.2-58.9c0-15.3-8.8-27.2-22.3-32.6l-80.1-30.8z m-524.8-76.8c21.2 0 38.4 17.2 38.4 38.4 0 21.2-17.2 38.4-38.4 38.4l-179.2 0c-21.2 0-38.4-17.2-38.4-38.4 0-21.2 17.2-38.4 38.4-38.4l179.2 0z"
+                        class="ng-tns-c2161066273-0"
+                      ></path>
+                    </svg>
+                    <span class="text-sm"
+                      >Aprovecha la oferta actual y haz tu pedido sin ningún costo
+                      de envío.</span
+                    >
+                  </div> -->
+              </div>
+
+              @if (currentCardAdded() && !paymentLoading()) {
+                <a
+                  href="javascript:void(0)"
+                  (click)="finishOrder()"
+                  class="flex w-full items-center justify-center rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-orange-500 focus:outline-none focus:ring-4 focus:ring-orange-300"
+                  >Finalizar compra</a
+                >
+              } @else {
+                <a
+                  href="javascript:void(0)"
+                  class="flex w-full items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-500 cursor-not-allowed focus:outline-none focus:ring-4"
+                  aria-disabled="true"
+                  >Finalizar compra</a
+                >
+              }
+
+              <div class="flex items-center justify-center gap-2">
+                <a
+                  href="javascript:void(0)"
+                  (click)="goToOtherPage('cart')"
+                  title=""
+                  class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline"
+                >
+                  <svg
+                    class="h-5 w-5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 12H19m-14 0 4 4m-4-4 4-4"
+                    />
+                  </svg>
+
+                  Volver al carrito
+                </a>
+              </div>
+            </div>
+          } @else {
+            <div
+              class="space-y-4 rounded-lg bg-gray-50 p-4 shadow-sm sm:p-6 animate-pulse"
+            >
+              <div class="h-6 bg-gray-200 rounded"></div>
+
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <!-- Total de artículos -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+
+                  <!-- Descuento de artículo(s) -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+
+                  <!-- Ahorro -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+
+                  <!-- Cantidad -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+                </div>
+
+                <!-- Total estimado -->
+                <div
+                  class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+                >
+                  <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                </div>
+
+                <!-- Fechas Estimadas de Envío -->
+                <div class="flex flex-col space-y-1 rounded-md p-1">
+                  <div class="h-6 bg-gray-200 rounded w-full"></div>
+                  <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-6 bg-gray-200 rounded w-full"></div>
+                </div>
+
+                <!-- Oferta de envío -->
+                <!-- <div class="flex space-x-1">
+                  <div class="h-6 bg-gray-200 rounded w-full"></div>
+                </div> -->
+              </div>
+
+              <!-- Botón Hacer pedido -->
+              <div class="h-10 bg-gray-200 rounded w-full"></div>
+
+              <!-- Continuar comprando -->
+              <div class="flex items-center justify-center gap-2">
+                <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL PAYMENT -->
+@if (paymentLoading()) {
+  <div
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50"
+  >
+    <div
+      class="modal-pulse relative bg-white rounded-lg w-11/12 sm:max-w-lg modal-gentle-pulse"
+    >
+      <div class="modal-body p-4 md:p-8">
+        <div class="flex flex-col justify-center items-center space-y-2">
+          <img
+            class="h-14 w-14"
+            src="/assets/icons/security.png"
+            alt="Icono de seguridad"
+          />
+
+          <span class="text-slate-800 font-semibold py-2">Procesando pago</span>
+
+          <div class="flex items-center justify-center space-x-2">
+            <div class="w-3 h-3 rounded-full animate-pulse bg-slate-800"></div>
+            <div class="w-3 h-3 rounded-full animate-pulse bg-slate-800"></div>
+            <div class="w-3 h-3 rounded-full animate-pulse bg-slate-800"></div>
+          </div>
+        </div>
+
+        <!-- Línea divisora -->
+        <hr class="my-4 border-t border-gray-300 md:px-8" />
+
+        <div class="flex flex-col justify-center items-center">
+          <span class="text-sm md:text-base text-slate-500 font-medium"
+            >Comprometidos en proteger su información de pago.</span
+          >
+
+          <div class="mt-2 flex items-center justify-center gap-x-4 md:gap-x-8">
+            <img
+              class="h-6 md:h-7 w-auto"
+              src="/assets/icons/visa-dark.svg"
+              alt=""
+            />
+            <img
+              class="h-6 md:h-7 w-auto"
+              src="/assets/icons/paypal-dark.svg"
+              alt=""
+            />
+            <img
+              class="h-6 md:h-7 w-auto"
+              src="/assets/icons/mastercard-dark.svg"
+              alt=""
+            />
+
+            <!-- <img class="h-6 w-auto" src="/assets/icons/visa.svg" alt="" />
+            <img class="h-6 w-auto" src="/assets/icons/paypal.svg" alt="" />
+            <img class="h-6 w-auto" src="/assets/icons/mastercard.svg" alt="" /> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- MODAL ERROR PAYMENT -->
+@if (paymentError()) {
+  <div
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50"
+  >
+    <div
+      class="modal-pulse relative bg-white rounded-lg w-11/12 sm:max-w-lg modal-gentle-pulse"
+    >
+      <div
+        class="modal-body p-4 md:py-4 md:px-8"
+        [ngClass]="{ 'opacity-20': modalLoading() }"
+      >
+        <div class="flex flex-col justify-center items-center space-y-1">
+          <svg
+            class="w-20 h-20"
+            fill="#dc2626"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-9 3v2h2v-2h-2zm0-8v6h2V5h-2z"
+            />
+          </svg>
+
+          <span class="text-slate-800 mb-2"
+            >Tu tarjeta fue rechazada por el banco emisor. Por favor, intenta
+            con otra tarjeta o comunícate con tu entidad bancaria para obtener
+            más información.</span
+          >
+        </div>
+
+        <!-- Línea divisora -->
+        <hr class="my-4 border-t border-gray-300 md:px-8" />
+
+        <div class="flex flex-col justify-center">
+          <div class="flex justify-end space-x-2">
+            <button
+              (click)="paymentError.set(false)"
+              type="button"
+              class="text-slate-700 bg-white border border-slate-700 transition-transform duration-300 ease-in-out transform hover:scale-110 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            >
+              Cancelar
+            </button>
+
+            <button
+              (click)="deleteCard()"
+              type="button"
+              class="text-white bg-[#051C2C] transition-transform duration-300 ease-in-out transform hover:scale-110 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            >
+              Agregar nueva
+            </button>
+          </div>
+        </div>
+
+        @if (modalLoading()) {
+          <div
+            class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-12 h-12 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

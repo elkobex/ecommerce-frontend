@@ -1,0 +1,1168 @@
+<!-- DESKTOP HEADER -->
+<header
+  [ngClass]="{
+    'hidden md:block w-full top-0 left-0 right-0 z-20 bg-white shadow-md transition-transform duration-300 ease-in-out': true,
+    sticky: !showOnScrollUp,
+    fixed: showOnScrollUp,
+    'translate-y-0': isHeaderVisible,
+
+    '-translate-y-full': !isHeaderVisible
+  }"
+>
+  <div
+    class="flex h-16 items-center justify-between max-w-[1500px] mx-auto px-6"
+  >
+    <a class="hidden lg:block" routerLink="/">
+      <svg width="2em" height="2em" viewBox="0 0 32 32" id="Layer_1" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+        <style type="text/css">
+          .st0{fill:#00BBB4;}
+          .st1{fill:#1B75BC;}
+          .st2{fill:#F15A29;}
+        </style>
+        
+        <g>
+        
+        <g>
+        
+        <path class="st0" d="M5,14.015625V30.5h12.0424805v-7.9232178c0-1.8409424,1.4923706-3.333313,3.333313-3.333313    s3.333374,1.4923706,3.333374,3.333313V30.5H27V14.015625H5z M13.553833,20.75h-4c-0.5523071,0-1-0.4477539-1-1    c0-0.5523071,0.4476929-1,1-1h4c0.5523071,0,1,0.4476929,1,1C14.553833,20.3022461,14.1061401,20.75,13.553833,20.75z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st1" d="M31,31.5H1c-0.5522461,0-1-0.4477539-1-1s0.4477539-1,1-1h30c0.5522461,0,1,0.4477539,1,1    S31.5522461,31.5,31,31.5z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st2" d="M5.2246366,12.531251h-0.00001c-3.0098128,0-5.0521717-3.0604792-3.8971148-5.8398342l2.5730567-6.1914167    h6.6666656L9.4049702,8.8900909C9.1158504,10.9771776,7.3316536,12.531251,5.2246366,12.531251z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st2" d="M16.1548214,12.531251h-0.3096428c-2.5610209,0-4.5317516-2.2625523-4.1803341-4.7993479l1.0018225-7.2319031    h6.666667l1.0018215,7.2319031C20.686573,10.2686987,18.7158413,12.531251,16.1548214,12.531251z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st2" d="M26.7753735,12.531251h-0.0000095c-2.1070175,0-3.8912144-1.5540733-4.1803341-3.64116L21.432766,0.4999999    h6.666666l2.5730553,6.1914167C31.8275452,9.4707718,29.7851868,12.531251,26.7753735,12.531251z"/>
+        
+        </g>
+        
+        </g>
+        
+        </svg>
+    </a>
+
+    <div class="flex-grow sm:mr-8 lg:mx-12">
+      <div class="flex items-center">
+        <button
+          type="button"
+          id="category"
+          class="text-white bg-[#051C2C] hover:bg-slate-800 focus:outline-none font-medium rounded-l-lg text-sm px-4 py-2.5 relative group"
+          (mouseenter)="mouseHoverOnBtnCategory = true"
+          (mouseleave)="mouseHoverOnBtnCategory = false"
+        >
+          <div class="flex justify-center items-center">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              class="h-5 mx-1 w-6"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              ></path>
+            </svg>
+
+            <span class="ml-1">Categorías</span>
+          </div>
+        </button>
+
+        <div class="relative flex-grow">
+          <input
+            #searchInput
+            type="search"
+            id="default-search"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-r-lg border border-gray-300 focus:border-slate-700 focus:outline-none"
+            placeholder="Busca Hombre, Niños, Polo, Gorras"
+            (keydown.enter)="performSearch(searchInput.value)"
+            required
+          />
+
+          <div
+            class="absolute right-2.5 bottom-2 bg-[#051C2C] scale-110 rounded-full"
+          >
+            <div class="p-1">
+              <svg
+                class="w-4 h-4 text-white cursor-pointer"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                (click)="performSearch(searchInput.value)"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+    <div
+      class="flex items-center space-x-4"
+      (mousemove)="openOverlay0()"
+      (mouseout)="closeOverlay0()"
+    >
+      @if (userData) {
+        <div
+          class="flex items-center relative group p-.5 hover:p-1 cursor-pointer"
+        >
+          <div
+            class="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-20 group-hover:scale-110 rounded-full z-0 transition-all duration-200 ease-in-out"
+          ></div>
+
+          <div class="flex items-center space-x-2 ">
+            <img
+              class="h-7 w-7"
+              src="/assets/icons/user.png"
+              alt=""
+              srcset=""
+            />
+
+            <div class="flex flex-col justify-center items-start">
+              <!-- <div class="text-sm">Hola, {{ userData.name }}</div> -->
+
+              <div class="text-sm group-hover:hidden fade-in">
+                {{
+                  displayName.length > 15
+                    ? displayName.substring(0, 15) + "..."
+                    : displayName
+                }}
+              </div>
+              <div class="text-sm font-semibold">Pedidos y cuenta</div>
+            </div>
+          </div>
+
+          <!-- MODAL -->
+          <!-- fade-in absolute z-50 hidden group-hover:block inset-x-0 top-full min-w-auto h-auto shadow-lg -->
+          <div
+            class="fade-in absolute z-50 hidden group-hover:block inset-x-0 top-full w-screen max-w-[220px] h-auto shadow-lg transform -translate-x-1/2 left-1/2"
+          >
+            <div class="bg-transparent h-1"></div>
+
+            <div
+              class="bg-white flex flex-col justify-center h-full w-full rounded-b-lg pt-4 pb-2"
+            >
+              <div class="flex items-center space-x-3 px-4">
+                <img
+                  src="/assets/icons/user.png"
+                  alt=""
+                  srcset=""
+                  class="h-7 w-7"
+                />
+                <h2 class="text-lg font-semibold">
+                  {{
+                    displayName.length > 27
+                      ? displayName.substring(0, 27) + "..."
+                      : displayName
+                  }}
+                </h2>
+              </div>
+
+              <hr class="text-center border-t border-gray-300 my-2 w-[95%]" />
+
+              <ul class="user-list">
+                <li
+                  [routerLink]="['/account/orders']"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="lwmSnnip"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                  >
+                    <path
+                      d="M734.8 109.7c105.8 0 191.6 85.8 191.7 191.6l0 421.4c0 105.8-85.8 191.6-191.7 191.6l-396.9 0c-105.8 0-191.6-85.8-191.6-191.6l0-421.4c0-105.8 85.8-191.6 191.6-191.6z m0 73.2l-396.9 0c-65.4 0-118.5 53.1-118.5 118.4l0 421.4c0 65.4 53.1 118.5 118.5 118.4l396.9 0c65.4 0 118.5-53.1 118.5-118.4l0-421.4c0-65.4-53.1-118.5-118.5-118.4z m-161.8 402.2c20.2 0 36.6 16.4 36.5 36.6 0 20.2-16.4 36.6-36.5 36.6l-170.7 0c-20.2 0-36.6-16.4-36.6-36.6 0-20.2 16.4-36.6 36.6-36.6l170.7 0z m73.1-207.2c20.2 0 36.6 16.4 36.6 36.6 0 20.2-16.4 36.6-36.6 36.5l-243.8 0c-20.2 0-36.6-16.4-36.6-36.5 0-20.2 16.4-36.6 36.6-36.6l243.8 0z"
+                    ></path>
+                  </svg>
+                  <span>Tus pedidos</span>
+                </li>
+                <!-- <li
+                  [routerLink]="['/account/profile']"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="lwmSnnip"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                  >
+                    <path
+                      d="M536.2 551c220.6 0 353.2 78.6 397.8 236 15.3 54.3-16.3 110.7-70.7 125.9-9 2.5-18.3 3.8-27.6 3.8l-598.6 0c-56.4 0.1-102.2-45.6-102.3-102 0-9.4 1.3-18.7 3.9-27.7 44.4-157.3 176.9-235.9 397.5-236z m0 73.2c-190.6 0-292.7 60.6-327.2 182.8-0.7 2.4-1 5-1 7.6 0 16 13 29 29.1 29l598.6 0c2.7 0 5.3-0.4 7.8-1.1 15.4-4.3 24.4-20.3 20.1-35.6-34.6-122.2-136.8-182.7-327.4-182.7z m0.2-563.2c-114.5 0-207.2 92.8-207.3 207.2 0 114.5 92.8 207.2 207.3 207.2 114.5 0 207.2-92.8 207.2-207.2 0-114.5-92.8-207.2-207.2-207.2z m0 73.1c74.1 0 134.1 60 134.1 134.1 0 74.1-60 134.1-134.1 134.1-74.1 0-134.1-60-134.1-134.1 0-74.1 60-134.1 134.1-134.1z"
+                    ></path>
+                  </svg>
+                  <span>Tu perfil</span>
+                </li> -->
+
+                <li
+                [routerLink]="['/account/favorites']"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="lwmSnnip"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                  >
+                    <path
+                      d="M859.5 193.4l-7.1-4.9-9.3-5.8c-97-57.8-219.4-41.7-297.9 35.3l-8.5 8.8-2.1-2.2c-81.8-86.2-215.3-102.5-316-34.4-112.4 76.1-141.8 228.8-65.7 341.2 29.9 44.2 62.7 87.4 98.3 129.6 35.1 41.7 73 82.4 113.6 122.2l27.3 26.8c81.6 79.8 212.3 78.7 292.5-2.6l26.9-27.3c38.1-38.6 74.3-78.2 108.5-118.8 34.4-40.8 66.8-82.6 97.2-125.3 78.7-110.6 52.8-264-57.7-342.6z m-1.9 300.2c-29.3 41.1-60.5 81.4-93.5 120.6-33 39.1-67.9 77.3-104.7 114.6l-26.9 27.2c-51.9 52.5-136.5 53.3-189.2 1.7l-27.3-26.8c-39-38.1-75.3-77.1-108.9-117-33.9-40.3-65.2-81.4-93.6-123.5-53.4-78.9-32.7-186.2 46.2-239.6 76.9-52.1 181.2-33.9 235.8 40.8l1.1 1.6c15.5 22.1 45.9 27.5 68.1 12l4-3.1 4.3-4.3 1.4-1.5c55.9-78.4 160-97.8 237.3-47l5.9 4c74.5 53 94 155.4 45.3 232.4l-5.3 7.9z"
+                    ></path>
+                  </svg>
+                  <span>Favoritos</span>
+                </li>
+
+                <li
+                  [routerLink]="['/account/coupons']"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="lwmSnnip"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                  >
+                    <path
+                      d="M780.2 158.5c101 0 182.9 81.9 182.8 182.8l0 67.2c0 15.5-9.8 29.3-24.3 34.5-29 10.2-48.8 37.7-48.8 69 0 31.2 19.8 58.7 48.8 69 14.6 5.2 24.4 19 24.3 34.5l0 67.2c0 101-81.9 182.9-182.8 182.8l-487.6 0c-101 0-182.9-81.9-182.9-182.8l0-67.2c0-15.5 9.8-29.3 24.4-34.5l6.5-2.7c25.4-11.8 42.3-37.5 42.3-66.3 0-31.3-19.8-58.8-48.8-69l-4.7-2c-12-6.2-19.7-18.7-19.7-32.5l0-67.2c0-101 81.9-182.9 182.9-182.8z m0 73.1l-487.6 0c-60.6 0-109.7 49.1-109.7 109.8l-0.1 43.9c42 24.4 69.8 68.1 72.9 117.4l0.3 9.3c0 53.1-28.6 100.8-73.2 126.7l0.1 44c0 58.1 45.1 105.6 102.2 109.4l7.5 0.3 487.6 0c60.6 0 109.7-49.1 109.7-109.7l0-44c-41.9-24.4-69.7-68.1-72.8-117.4l-0.3-9.3c0-53.1 28.6-100.8 73.1-126.8l0-43.9c0-58.1-45.1-105.6-102.2-109.4l-7.5-0.3z m-121.9 377.9c26.9 0 48.8 21.8 48.7 48.8 0 26.9-21.8 48.8-48.7 48.7-26.9 0-48.8-21.8-48.8-48.7 0-26.9 21.8-48.8 48.8-48.8z m0-146.3c26.9 0 48.8 21.8 48.7 48.8 0 26.9-21.8 48.8-48.7 48.8-26.9 0-48.8-21.8-48.8-48.8 0-26.9 21.8-48.8 48.8-48.8z m0-146.2c26.9 0 48.8 21.8 48.7 48.7 0 26.9-21.8 48.8-48.7 48.8-26.9 0-48.8-21.8-48.8-48.8 0-26.9 21.8-48.8 48.8-48.7z"
+                    ></path>
+                  </svg>
+                  <span>Cupones y ofertas</span>
+                </li>
+
+                <li
+                  [routerLink]="['/account/address']"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="lwmSnnip"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                  >
+                    <path
+                      d="M536.4 61c222.2 0 402.3 181.5 402.3 405.3 0 14.7-0.9 29.5-2.8 46.1l-2.9 20c-1.3 8.3-2.9 16.6-5 25.4l-4 15.8c-18.1 66.4-52.6 126.7-99.2 174.8l-11 10.9c-37.8 39.6-93.4 85.2-167.2 137.1-66.1 46.5-154.3 46.5-220.4 0-73.8-51.9-129.4-97.5-166-135.9-57.2-54.5-97.5-124.7-115.2-201.8l-3.1-14.2c-1.5-8.1-2.9-16.3-4-24.9l-0.6-3.8-2.1-20c-0.8-10-1.1-19.8-1.1-29.5 0-223.8 180-405.3 402.3-405.3z m0 73.1c-181.7 0-329.1 148.7-329.2 332.2 0 11.8 0.7 24 2.1 36.4l2.7 17.9c1.1 6.6 2.2 12.9 3.4 18.5l4.4 17.2c16.1 57.9 47.7 110.1 92.1 152.5 34 35.6 86.2 78.4 156.4 127.7 40.9 28.7 95.4 28.7 136.2 0.1 70.2-49.4 122.4-92.1 157.6-129 46.9-44.7 79.9-102.2 94.2-164.4l2.7-12.5 1.8-10.2 2.6-17.5c1.4-12.7 2.1-24.8 2.1-36.7 0-183.5-147.4-332.2-329.1-332.2z m0 182.9c87.5 0 158.5 70.9 158.5 158.4 0 87.5-70.9 158.5-158.5 158.5-87.5 0-158.5-71-158.5-158.5 0-87.5 70.9-158.5 158.5-158.4z m0 73.1c-47.1 0-85.3 38.2-85.4 85.3 0 47.1 38.2 85.3 85.4 85.4 47.1 0 85.3-38.2 85.3-85.4 0-47.1-38.2-85.3-85.3-85.3z"
+                    ></path>
+                  </svg>
+                  <span>Direcciones</span>
+                </li>
+
+                <li
+                  [routerLink]="['/account/notifications']"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="lwmSnnip"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                  >
+                    <path
+                      d="M722.7 109.7c105.8 0 191.6 85.8 191.6 191.6l0 161.9c0 20.2-16.4 36.6-36.6 36.6-20.2 0-36.6-16.4-36.6-36.6l0-161.9c0-65.4-53.1-118.5-118.4-118.4l-372.6 0c-65.4 0-118.5 53.1-118.5 118.4l0 421.4c0 65.4 53.1 118.5 118.5 118.4l152.1 0c20.2 0 36.6 16.4 36.6 36.6 0 20.2-16.4 36.6-36.6 36.6l-152.1 0c-105.8 0-191.6-85.8-191.6-191.6l0-421.4c0-105.8 85.8-191.6 191.6-191.6l372.6 0z m-20.5 409.8c27.2-15.7 60.6-15.7 87.7 0l96.6 55.8c27.2 15.7 43.9 44.7 43.9 76l0 111.5c0 31.4-16.7 60.3-43.9 76l-96.6 55.8c-27.2 15.7-60.6 15.7-87.7 0l-96.6-55.8c-27.2-15.7-43.9-44.7-43.9-76l0-111.5c0-31.4 16.7-60.3 43.9-76z m51.2 63.3c-4.5-2.6-10.1-2.6-14.7 0l-96.6 55.8c-4.5 2.6-7.3 7.4-7.3 12.7l0 111.5c0 5.2 2.8 10.1 7.3 12.7l96.6 55.8c4.5 2.6 10.1 2.6 14.7 0l96.6-55.8c4.5-2.6 7.3-7.4 7.3-12.7l0-111.5c0-5.2-2.8-10.1-7.3-12.7z m-7.3 75.5c26.9 0 48.8 21.8 48.7 48.7 0 26.9-21.8 48.8-48.7 48.8-26.9 0-48.8-21.8-48.8-48.8 0-26.9 21.8-48.8 48.8-48.7z m-273.1-87.8c21.5 0 39 17.5 39 39 0 21.5-17.5 39-39 39l-68.3 0c-21.5 0-39-17.5-39-39 0-21.5 17.5-39 39-39l68.3 0z m146.3-204.8c21.5 0 39 17.5 39 39 0 21.5-17.5 39-39 39l-214.6 0c-21.5 0-39-17.5-39-39 0-21.5 17.5-39 39-39l214.6 0z"
+                    ></path>
+                  </svg>
+                  <span>Notificaciones</span>
+                </li>
+
+                <hr class="text-center border-t border-gray-300 my-2 w-[95%]" />
+
+                <li
+                  (click)="logout()"
+                  class="flex items-center space-x-2 py-1.5 px-4 hover:bg-gray-200"
+                >
+                  <svg
+                    class="_3cYTr7zU"
+                    alt=""
+                    aria-label=""
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                    viewBox="0 0 1024 1024"
+                    width="1.3em"
+                    height="1.3em"
+                    role="img"
+                    fill="#000000"
+                  >
+                    <path
+                      d="M256 102.4c-45.5 0-82.9 35-86.7 79.5l-0.3 7.5 0 66.6c0 19.8 16 35.8 35.8 35.8 18.1 0 33.1-13.5 35.5-30.9l0.3-4.9 0-66.6c0-7.3 5.1-13.4 11.9-14.9l3.5-0.4 545.6 0c9.3 0 17.3 7.1 19.2 16.9l0.4 4.3 0 628.2c0 10.5-6.9 18.9-15.7 20.9l-3.9 0.4-545.6 0c-7.3 0-13.4-5.1-15-11.8l-0.4-3.6 0-61.2c0-19.8-16-35.8-35.8-35.9-18.1 0-33.1 13.5-35.5 31l-0.3 4.9 0 61.2c0 45.5 35 82.9 79.5 86.8l7.5 0.3 545.6 0c48.1 0 87.2-37.8 91-85.4l0.3-7.6 0-628.2c0-48.5-36.7-88.7-83.8-92.6l-7.5-0.3-545.6 0z m-49.1 255.7l-130.4 130.4c-14 14-14 36.7 0 50.7l130.4 130.3c14 14 36.7 14 50.7 0 14-14 14-36.7 0-50.7l-70.9-71 342.5 0c19.8 0 35.8-16 35.8-35.8 0-19.8-16-35.8-35.8-35.8l-339 0 67.4-67.4c14-14 14-36.7 0-50.7-14-14-36.7-14-50.7 0z"
+                    ></path>
+                  </svg>
+                  <span>Cerrar sesión</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div
+          class="fade-in flex items-center relative group p-1 cursor-pointer"
+          (click)="openLoginModal()"
+        >
+          <div
+            class="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-20 group-hover:scale-110 rounded-full z-0 transition-all duration-200 ease-in-out"
+          ></div>
+
+          <svg
+            class="lg:mr-1 z-10"
+            alt=""
+            aria-label=""
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.1"
+            viewBox="0 0 1024 1024"
+            width="1.7em"
+            height="1.7em"
+            role="img"
+          >
+            <path
+              d="M510.8 575.6c204.6 0 323.5 71 356.9 212.9 9 38.1-14.7 76.3-52.8 85.3-5.4 1.3-10.9 1.9-16.4 1.9l-575.5 0c-39.2-0.1-70.9-31.9-70.8-71.1 0-5.4 0.6-10.8 1.9-16.1 33.2-141.9 152.1-212.9 356.7-212.9z m0 81c-161 0-244.7 44.6-273.3 134l-1.2 4 549.1 0-1.1-3.8c-27.8-86.8-107.6-131.5-259.5-134l-14-0.2z m1.2-523.8c103.2 0 186.8 83.6 186.8 186.8 0 103.2-83.6 186.8-186.8 186.8-103.2 0-186.8-83.6-186.8-186.8 0-103.2 83.6-186.8 186.8-186.8z m0 81c-58.4 0-105.8 47.3-105.8 105.8 0 58.4 47.3 105.8 105.8 105.7 58.4 0 105.8-47.3 105.8-105.7 0-58.4-47.3-105.8-105.8-105.8z"
+            ></path>
+          </svg>
+
+          <!-- <div class="z-10 hidden lg:block">Iniciar sesión</div> -->
+
+          <div class="flex flex-col justify-center items-start">
+            <div class="text-sm">Registrarse</div>
+            <div class="hidden lg:block text-sm font-semibold">
+              Iniciar sesión
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- group relative p-1 cursor-pointer -->
+      <div class="flex items-center relative group px-.5cursor-pointer">
+        <app-cart-modal [isLoggedIn]="isLoggedIn" [userData]="userData" />
+      </div>
+
+      <div class="flex items-center relative group cursor-pointer">
+        <button
+          type="button"
+          class="relative inline-flex p-2 bg-transparent rounded-full hover:bg-gray-300 focus:outline-none transition-all duration-300 ease-in-out"
+        >
+          <svg
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            width="1.7em"
+            height="1.7em"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+            ></path>
+          </svg>
+
+          @if (userData) {
+            <!-- <div
+            class="fade-in absolute bottom-6 left-5 inline-flex items-center justify-center font-bold text-white bg-slate-900 z-20 w-4 h-4 rounded-full"
+            style="line-height: 1; font-size: 0.775rem; padding: 0"
+          >
+            0
+          </div> -->
+            <!-- <div
+              class="absolute inline-flex group-hover:hidden items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full -top-0 -end-0 z-10"
+            >
+              0
+            </div> -->
+
+            <div
+              class="absolute inline-flex group-hover:hidden items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full -top-0 -end-0 z-10"
+            >
+              <span class="rounded-full">0</span>
+            </div>
+
+            <!-- MODAL -->
+
+            <!-- bg-white  -->
+            <!-- transform md:-translate-x-[65%] 2xl:-translate-x-1/2 2xl:left-0 -->
+            <div
+              class="fade-in absolute z-50 hidden group-hover:block inset-x-0 top-full w-screen max-w-sm h-auto shadow-lg transform md:-translate-x-[66%] 2xl:left-0"
+            >
+              <div class="bg-transparent h-1"></div>
+              <div
+                class="bg-white rounded-b-lg flex flex-col items-center justify-center h-full space-x-2 pt-2 pb-8"
+              >
+                <svg
+                  fill="none"
+                  stroke="#9ca3af"
+                  stroke-width=".5"
+                  width="6em"
+                  height="6em"
+                  viewBox="0 0 24 24"
+                  class="pt-2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                  ></path>
+                </svg>
+
+                <div class="text-center px-1">
+                  La lista de favoritos está vacía.
+                </div>
+              </div>
+            </div>
+          }
+        </button>
+      </div>
+
+      <div class="flex items-center relative group cursor-pointer">
+        <div
+          class="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-20 group-hover:scale-110 rounded-full z-0 transition-all duration-300 ease-in-out"
+        ></div>
+
+        <img
+          class="w-6 h-6 mr-1"
+          src="/assets/icons/mexico.png"
+          alt="ES"
+          aria-hidden="true"
+          data-did-mount="1"
+        />
+
+        <div class="z-10">MX</div>
+      </div>
+
+      <!-- Ventana modal que aparece debajo del header -->
+      <div
+        class="absolute top-full left-1/2 transform -translate-x-1/2 w-96 h-48 bg-white shadow-lg rounded-lg hidden group-hover:block"
+        id="modal-window"
+      >
+        <!-- Contenido de la ventana modal -->
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE HEADER -->
+<header
+  [ngClass]="{
+    'fixed md:hidden w-full top-0 left-0 right-0 z-20 bg-white shadow-md transition-transform duration-300 ease-in-out': true,
+    'translate-y-0': isHeaderVisible,
+    '-translate-y-full':
+      !isHeaderVisible && !mobileGlobalMenu() && !mobileAccountMenu()
+  }"
+>
+  <div class="flex mx-auto h-16 w-full items-center justify-between px-5">
+    <div (click)="toggleMobileGlobalMenu()" class="burgerMenu cursor-pointer">
+      <!-- Icono de menú, cambia a 'X' cuando se abre el menú -->
+      @if (mobileGlobalMenu()) {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          class="h-8 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      } @else {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          class="h-8 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          />
+        </svg>
+      }
+    </div>
+
+    <a routerLink="/">
+      <svg width="2em" height="2em" viewBox="0 0 32 32" id="Layer_1" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  
+        <style type="text/css">
+          .st0{fill:#00BBB4;}
+          .st1{fill:#1B75BC;}
+          .st2{fill:#F15A29;}
+        </style>
+        
+        <g>
+        
+        <g>
+        
+        <path class="st0" d="M5,14.015625V30.5h12.0424805v-7.9232178c0-1.8409424,1.4923706-3.333313,3.333313-3.333313    s3.333374,1.4923706,3.333374,3.333313V30.5H27V14.015625H5z M13.553833,20.75h-4c-0.5523071,0-1-0.4477539-1-1    c0-0.5523071,0.4476929-1,1-1h4c0.5523071,0,1,0.4476929,1,1C14.553833,20.3022461,14.1061401,20.75,13.553833,20.75z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st1" d="M31,31.5H1c-0.5522461,0-1-0.4477539-1-1s0.4477539-1,1-1h30c0.5522461,0,1,0.4477539,1,1    S31.5522461,31.5,31,31.5z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st2" d="M5.2246366,12.531251h-0.00001c-3.0098128,0-5.0521717-3.0604792-3.8971148-5.8398342l2.5730567-6.1914167    h6.6666656L9.4049702,8.8900909C9.1158504,10.9771776,7.3316536,12.531251,5.2246366,12.531251z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st2" d="M16.1548214,12.531251h-0.3096428c-2.5610209,0-4.5317516-2.2625523-4.1803341-4.7993479l1.0018225-7.2319031    h6.666667l1.0018215,7.2319031C20.686573,10.2686987,18.7158413,12.531251,16.1548214,12.531251z"/>
+        
+        </g>
+        
+        <g>
+        
+        <path class="st2" d="M26.7753735,12.531251h-0.0000095c-2.1070175,0-3.8912144-1.5540733-4.1803341-3.64116L21.432766,0.4999999    h6.666666l2.5730553,6.1914167C31.8275452,9.4707718,29.7851868,12.531251,26.7753735,12.531251z"/>
+        
+        </g>
+        
+        </g>
+        
+        </svg>
+    </a>
+
+    @if (userData) {
+      <!-- <div class="cursor-pointer" (click)="toggleMobileAccountMenu()">
+      <img src="/assets/icons/user.png" alt="" srcset="" class="h-7 w-7" />
+    </div> -->
+
+      <button
+        type="button"
+        class="relative inline-flex p-2 bg-transparent rounded-full hover:bg-gray-300 focus:outline-none transition-all duration-300 ease-in-out"
+        (click)="toggleMobileAccountMenu()"
+      >
+        <img src="/assets/icons/user.png" alt="" srcset="" class="h-7 w-7" />
+        @if (!mobileAccountMenu() && !mobileGlobalMenu()) {
+          <div
+            class="absolute inline-flex group-hover:hidden items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full -top-0 -end-0 z-10 border-gray-900"
+          >
+            {{ totalQuantityCart() }}
+          </div>
+        }
+      </button>
+    } @else {
+      <div (click)="openLoginModal()" class="account cursor-pointer">
+        <svg
+          class="lg:mr-1 z-10"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.6em"
+          height="1.6em"
+          role="img"
+        >
+          <path
+            d="M510.8 575.6c204.6 0 323.5 71 356.9 212.9 9 38.1-14.7 76.3-52.8 85.3-5.4 1.3-10.9 1.9-16.4 1.9l-575.5 0c-39.2-0.1-70.9-31.9-70.8-71.1 0-5.4 0.6-10.8 1.9-16.1 33.2-141.9 152.1-212.9 356.7-212.9z m0 81c-161 0-244.7 44.6-273.3 134l-1.2 4 549.1 0-1.1-3.8c-27.8-86.8-107.6-131.5-259.5-134l-14-0.2z m1.2-523.8c103.2 0 186.8 83.6 186.8 186.8 0 103.2-83.6 186.8-186.8 186.8-103.2 0-186.8-83.6-186.8-186.8 0-103.2 83.6-186.8 186.8-186.8z m0 81c-58.4 0-105.8 47.3-105.8 105.8 0 58.4 47.3 105.8 105.8 105.7 58.4 0 105.8-47.3 105.8-105.7 0-58.4-47.3-105.8-105.8-105.8z"
+          ></path>
+        </svg>
+      </div>
+    }
+  </div>
+</header>
+
+<!-- MOBILE GLOBAL MENU -->
+<!-- flex flex-col  overflow-y-auto-->
+<section
+  class="md:hidden fixed left-0 right-0 z-20 h-full w-full bg-white transition-transform duration-300 ease-in-out"
+  [class.translate-x-0]="mobileGlobalMenu()"
+  [class.-translate-x-full]="!mobileGlobalMenu()"
+  [ngStyle]="{ top: '4rem' }"
+  id="global-mobile-menu"
+>
+  <!-- Fila con iconos -->
+  <div class="flex justify-around py-4 border-b">
+    <!-- Icono de cuenta -->
+    <a
+      [routerLink]="['/account/orders']"
+      lass="flex flex-col items-center justify-center"
+    >
+      <!-- SVG de cuenta aquí -->
+      <div class="flex items-center relative group p-1 cursor-pointer">
+        <div
+          class="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-20 group-hover:scale-110 rounded-full z-0 transition-all duration-300 ease-in-out"
+        ></div>
+
+        <svg
+          class="mr-1 z-10"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.7em"
+          height="1.7em"
+          role="img"
+        >
+          <path
+            d="M510.8 575.6c204.6 0 323.5 71 356.9 212.9 9 38.1-14.7 76.3-52.8 85.3-5.4 1.3-10.9 1.9-16.4 1.9l-575.5 0c-39.2-0.1-70.9-31.9-70.8-71.1 0-5.4 0.6-10.8 1.9-16.1 33.2-141.9 152.1-212.9 356.7-212.9z m0 81c-161 0-244.7 44.6-273.3 134l-1.2 4 549.1 0-1.1-3.8c-27.8-86.8-107.6-131.5-259.5-134l-14-0.2z m1.2-523.8c103.2 0 186.8 83.6 186.8 186.8 0 103.2-83.6 186.8-186.8 186.8-103.2 0-186.8-83.6-186.8-186.8 0-103.2 83.6-186.8 186.8-186.8z m0 81c-58.4 0-105.8 47.3-105.8 105.8 0 58.4 47.3 105.8 105.8 105.7 58.4 0 105.8-47.3 105.8-105.7 0-58.4-47.3-105.8-105.8-105.8z"
+          ></path>
+        </svg>
+
+        <div class="flex z-10 transition-all duration-300 ease-in-out">
+          Cuenta
+        </div>
+      </div>
+    </a>
+
+    <!-- Icono de favoritos -->
+    <a [routerLink]="['/account/favorites']" class="flex flex-col items-center justify-center">
+      <div class="flex items-center relative group p-1 cursor-pointer">
+        <div
+          class="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-20 group-hover:scale-110 rounded-full z-0 transition-all duration-300 ease-in-out"
+        ></div>
+
+        <svg
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          width="1.7em"
+          height="1.7em"
+          viewBox="0 0 24 24"
+        >
+          <path
+            _ngcontent-ng-c1187887723=""
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+          ></path>
+        </svg>
+
+        <!-- Número sobrepuesto -->
+        <div
+          class="absolute inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full -top-0 left-5 z-10"
+        >
+          0
+        </div>
+
+        <div class="flex z-10 transition-all duration-300 ease-in-out">
+          Favoritos
+        </div>
+      </div>
+    </a>
+
+    <!-- Icono de carrito -->
+    <a [routerLink]="['/cart']" class="flex flex-col items-center justify-center">
+      <div class="flex items-center relative group p-1 cursor-pointer">
+        <div
+          class="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-20 group-hover:scale-110 rounded-full z-0 transition-all duration-300 ease-in-out"
+        ></div>
+
+        <svg
+          class="z-10 mr-1"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.7em"
+          height="1.7em"
+          role="img"
+        >
+          <path
+            d="M373.3 916.1c32.8 0 59.4-26.6 59.5-59.4 0-32.8-26.6-59.4-59.5-59.4-32.8 0-59.4 26.6-59.4 59.4 0 32.8 26.6 59.4 59.4 59.4z m396.2 0c32.8 0 59.4-26.6 59.5-59.4 0-32.8-26.6-59.4-59.5-59.4-32.8 0-59.4 26.6-59.4 59.4 0 32.8 26.6 59.4 59.4 59.4z m-684.2-815.1l90.3 17.4c49.9 9.6 88.7 49.2 97.2 99.4l2.3 13.8 486.2 0c91.4 0 165.5 74.1 165.5 165.5 0 8.8-0.7 17.6-2.1 26.3l-28.9 179.1c-12.6 78.3-80.2 135.8-159.4 135.8l-335.9 0c-80.8 0-149.1-59.7-160-139.6l-43-314.8-0.5-2.3-8.4-49.6c-2.5-15-14.2-26.9-29.1-29.8l-90.3-17.4c-23.1-4.4-38.3-26.8-33.9-49.9 4.4-23.1 26.8-38.3 50-33.9z m676 216l-473.2 0 36.9 270.1c5.2 37.7 37.4 65.9 75.5 65.9l335.9 0c37.4 0 69.3-27.1 75.2-64.1l28.9-179c0.7-4.2 1-8.5 1-12.8 0-44.3-35.9-80.2-80.2-80.1z"
+          ></path>
+        </svg>
+
+        <!-- Número sobrepuesto -->
+        <!-- <span
+          class="absolute bottom-5 left-5 bg-red-500 rounded-full inline-flex items-center justify-center px-.5 text-md font-bold text-slate-900 z-20"
+        >
+          {{ totalQuantityCart() }}
+        </span> -->
+
+        <div
+          class="absolute inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-500 rounded-full -top-0 left-5 z-10"
+        >
+          {{ totalQuantityCart() }}
+        </div>
+
+        <div class="flex z-10 transition-all duration-300 ease-in-out">
+          Carrito
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Campo de búsqueda -->
+  <div class="my-4 mx-5 flex items-center">
+    <input
+      class="w-4/5 p-2 border rounded mr-1 focus:border-slate-700 focus:outline-none"
+      type="search"
+      placeholder="Busca Hombre, Niños, Polo, Gorras"
+      #searchInputMobile
+      (keydown.enter)="performSearch(searchInputMobile.value)"
+    />
+
+    <button
+      type="submit"
+      (click)="performSearch(searchInputMobile.value)"
+      class="ml-auto h-full px-4 py-2 bg-[#051C2C] hover:bg-slate-900 text-white rounded-md"
+    >
+      Buscar
+    </button>
+  </div>
+
+  <!-- Lista desplegable de categorías -->
+  <div class="px-5 py-2">
+    <p class="text-lg text-center mb-2 font-semibold">CATEGORIAS</p>
+    <ul>
+      <li *ngFor="let category of categories; let i = index">
+        <div
+          (click)="toggleCategory(i)"
+          class="w-full py-2 px-3 flex items-center justify-between rounded-md bg-[#051C2C] hover:bg-slate-900 text-white border-b border-gray-200 cursor-pointer"
+          
+        >
+        <!-- [class.bg-amber-400]="i === selectedCategoryIndex" -->
+          <p>{{ category.name }}</p>
+          <svg
+            [class.rotate-180]="category.expanded"
+            class="h-4 w-4 transform transition-transform duration-300"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+
+        <div
+          *ngIf="selectedCategoryIndex === i"
+          class="pl-4 overflow-hidden transition-all ease-in-out duration-500"
+          [style.max-height.px]="
+            category.expanded ? category.subcategories.length * 44 : 0
+          "
+        >
+          <ul>
+            <li
+              *ngFor="let subcategory of category.subcategories"
+              class="border-t border-gray-200"
+            >
+              <a href="javascript:void()" (click)="goProductsByCategory(subcategory.name, '', '')" class="block py-2 hover:text-blue-500">{{
+                subcategory.name
+              }}</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Línea divisora -->
+  <hr class="my-4 border-gray-300" />
+
+  <!-- Opciones adicionales de menú -->
+  <div class="px-5 py-2">
+    <!-- <ul class="font-medium text-center">
+      <li class="py-2"><a href="/index.html">Home</a></li>
+      <li class="py-2"><a href="/catalog.html">Catalog</a></li>
+      <li class="py-2"><a href="/about-us.html">About Us</a></li>
+      <li class="py-2"><a href="/contact-us.html">Contact Us</a></li>
+    </ul> -->
+  </div>
+</section>
+
+<!-- MOBILE ACCOUNT MENU -->
+@if (mobileAccountMenu()) {
+  <!-- [ngStyle]="{'top': headerHeight+'px'}" -->
+  <section
+    class="md:hidden bg-white flex flex-col fixed z-20 left-1/2 transform -translate-x-1/2 w-[350px] fade-in rounded-b-lg"
+    [ngStyle]="{ top: '4rem' }"
+    id="account-mobile-menu"
+  >
+    <div class="flex items-center justify-between space-x-4 px-3 py-2">
+      <div class="flex items-center space-x-2">
+        <img src="/assets/icons/user.png" alt="" srcset="" class="h-8 w-8" />
+        <h2 class="text-md font-semibold">
+          {{
+            displayName.length > 22
+              ? displayName.substring(0, 22) + "..."
+              : displayName
+          }}
+        </h2>
+      </div>
+
+      <!-- <div class="rounded-full border border-slate-900">
+      <div class="flex items-center py-1 px-2">
+        <svg
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          class="icon-2qVSG"
+        >
+          <path
+            d="M791.5 148.9c97.7 0 176.9 79.2 176.9 176.9l0 326.9c0 97.7-79.2 176.9-176.9 176.8l-120.2 0c-3.4 0-6.7 1.5-9 4.1l-54 60.3c-41 45.8-111.3 49.7-157 8.8-3.2-2.8-6.1-5.8-9-9l-53.4-60.1c-2.3-2.6-5.6-4.1-9.1-4.1l-108.9 0c-92.9 0-168.3-75.3-168.3-168.3l0-335.4c0-97.7 79.2-176.9 176.9-176.9z m0 74.5l-512 0c-56.6 0-102.4 45.8-102.4 102.4l0 335.4c0 51.8 42 93.8 93.8 93.9l108.9 0c24.7 0 48.3 10.6 64.7 29l53.5 60.1 2.9 2.9c15.1 13.5 38.4 12.2 51.9-2.9l54-60.3c16.4-18.4 39.9-28.9 64.5-28.8l120.2 0c56.6 0 102.4-45.8 102.4-102.4l0-326.9c0-56.6-45.8-102.4-102.4-102.4z m-429.9 227.2c28.3 0 51.2 22.9 51.2 51.2 0 28.3-22.9 51.2-51.2 51.2-28.3 0-51.2-22.9-51.2-51.2 0-28.3 22.9-51.2 51.2-51.2z m176.9 0c28.3 0 51.2 22.9 51.2 51.2 0 28.3-22.9 51.2-51.2 51.2-28.3 0-51.2-22.9-51.2-51.2 0-28.3 22.9-51.2 51.2-51.2z m176.9 0c28.3 0 51.2 22.9 51.2 51.2 0 28.3-22.9 51.2-51.2 51.2-28.3 0-51.2-22.9-51.2-51.2 0-28.3 22.9-51.2 51.2-51.2z"
+          ></path>
+        </svg>
+        <span class="ml-1 text-sm">Mensajes</span>
+      </div>
+    </div> -->
+      <button
+        [routerLink]="['/cart']"
+        type="button"
+        class="relative inline-flex items-center px-2 py-1.5 text-sm font-medium text-center border border-slate-900 rounded-lg"
+      >
+        Ver carrito
+        <div
+          class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2"
+        >
+          {{ totalQuantityCart() }}
+        </div>
+      </button>
+    </div>
+
+    <!-- space-x-4 px-5  -->
+    <div class="flex items-center justify-around px-4 py-4 border-b">
+      <!-- <div class="flex flex-col items-center justify-center">
+        <div class="bg-slate-900 rounded-full">
+          <div class="p-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              viewBox="0 0 1024 1024"
+              width="1.9em"
+              height="1.9em"
+              role="img"
+            >
+              <path
+                fill="#FFFFFF"
+                d="M536.2 551c220.6 0 353.2 78.6 397.8 236 15.3 54.3-16.3 110.7-70.7 125.9-9 2.5-18.3 3.8-27.6 3.8l-598.6 0c-56.4 0.1-102.2-45.6-102.3-102 0-9.4 1.3-18.7 3.9-27.7 44.4-157.3 176.9-235.9 397.5-236z m0 73.2c-190.6 0-292.7 60.6-327.2 182.8-0.7 2.4-1 5-1 7.6 0 16 13 29 29.1 29l598.6 0c2.7 0 5.3-0.4 7.8-1.1 15.4-4.3 24.4-20.3 20.1-35.6-34.6-122.2-136.8-182.7-327.4-182.7z m0.2-563.2c-114.5 0-207.2 92.8-207.3 207.2 0 114.5 92.8 207.2 207.3 207.2 114.5 0 207.2-92.8 207.2-207.2 0-114.5-92.8-207.2-207.2-207.2z m0 73.1c74.1 0 134.1 60 134.1 134.1 0 74.1-60 134.1-134.1 134.1-74.1 0-134.1-60-134.1-134.1 0-74.1 60-134.1 134.1-134.1z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+
+        <span class="text-center text-sm">Tu perfil</span>
+      </div> -->
+      <div [routerLink]="['/account/coupons']" class="flex flex-col items-center justify-center">
+        <div class="bg-slate-900 rounded-full">
+          <div class="p-2">
+            <svg
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.9em"
+              height="1.9em"
+            >
+              <path
+                fill="#FFFFFF"
+                d="M765.9 157.9c96.6 0 174.9 78.3 174.9 174.9l0 77.4c0 14.9-9.7 28.1-23.9 32.6-30 9.4-50.8 37.3-50.8 69.2 0 31.9 20.8 59.8 50.8 69.2 14.2 4.5 23.9 17.7 23.9 32.6l0 77.4c0 96.6-78.3 174.9-174.9 174.9l-507.8 0c-96.6 0-174.9-78.3-174.9-174.9l0-77.4c0-14.9 9.7-28.1 23.9-32.6 30-9.4 50.8-37.3 50.8-69.2 0-31.9-20.8-59.8-50.8-69.2-14.2-4.5-23.9-17.7-23.9-32.6l0-77.4c0-96.6 78.3-174.9 174.9-174.9z m0 68.2l-507.8 0c-58.9 0-106.7 47.8-106.6 106.7l0 54.9 4.7 2.6c40.2 23.4 67 65.8 69.7 113.7l0.2 8c0 51.2-27.5 97-69.9 121.7l-4.7 2.5 0 55c0 56.6 44 102.8 99.6 106.4l7 0.3 507.8 0c58.9 0 106.7-47.8 106.6-106.7l0-55-4.7-2.5c-40.2-23.4-67-65.8-69.7-113.7l-0.2-8c0-51.2 27.5-97 69.9-121.7l4.7-2.6 0-54.9c0-56.6-44-102.8-99.6-106.4l-7-0.3z m-121.6 375.5c25.9 0 46.9 21 46.9 46.9 0 24.2-18.3 44.1-41.8 46.7l-5.1 0.3c-25.9 0-46.9-21-47-47 0-24.2 18.3-44.1 41.9-46.6l5.1-0.3z m0-136.5c25.9 0 46.9 21 46.9 46.9 0 24.2-18.3 44.1-41.8 46.7l-5.1 0.2c-25.9 0-46.9-21-47-46.9 0-24.2 18.3-44.1 41.9-46.7l5.1-0.2z m0-136.6c25.9 0 46.9 21 46.9 47 0 24.2-18.3 44.1-41.8 46.6l-5.1 0.3c-25.9 0-46.9-21-47-46.9 0-24.2 18.3-44.1 41.9-46.7l5.1-0.3z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+
+        <span class="text-center text-sm">Cupones y ofertas</span>
+      </div>
+
+      <div [routerLink]="['/account/orders']" class="flex flex-col items-center justify-center">
+        <div class="bg-slate-900 rounded-full">
+          <div class="p-2">
+            <svg
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              width="1.9em"
+              height="1.9em"
+            >
+              <path
+                fill="#FFFFFF"
+                d="M714.8 115.2c101.3 0 183.4 82.1 183.3 183.4l0 426.8c0 101.3-82.1 183.4-183.3 183.4l-405.6 0c-101.3 0-183.4-82.1-183.3-183.4l0-426.8c0-101.3 82.1-183.4 183.3-183.4z m0 68.3l-405.6 0c-63.6 0-115.1 51.5-115.1 115.1l0 426.8c0 63.6 51.5 115.1 115.1 115.1l405.6 0c63.6 0 115.1-51.5 115.1-115.1l0-426.8c0-63.6-51.5-115.1-115.1-115.1z m-183.7 392.5c18.9 0 34.1 15.3 34.1 34.1 0 18.9-15.3 34.1-34.1 34.2l-166.3 0c-18.9 0-34.1-15.3-34.1-34.2 0-18.9 15.3-34.1 34.1-34.1l166.3 0z m85.4-192c18.9 0 34.1 15.3 34.2 34.1 0 18.9-15.3 34.1-34.2 34.2l-251.7 0c-18.9 0-34.1-15.3-34.1-34.2 0-18.9 15.3-34.1 34.1-34.1l251.7 0z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+
+        <span class="text-center text-sm">Pedidos</span>
+      </div>
+    </div>
+
+    <ul class="user-list py-2">
+      <li [routerLink]="['/account/orders']" class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200">
+        <svg
+          class="lwmSnnip"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+        >
+          <path
+            d="M734.8 109.7c105.8 0 191.6 85.8 191.7 191.6l0 421.4c0 105.8-85.8 191.6-191.7 191.6l-396.9 0c-105.8 0-191.6-85.8-191.6-191.6l0-421.4c0-105.8 85.8-191.6 191.6-191.6z m0 73.2l-396.9 0c-65.4 0-118.5 53.1-118.5 118.4l0 421.4c0 65.4 53.1 118.5 118.5 118.4l396.9 0c65.4 0 118.5-53.1 118.5-118.4l0-421.4c0-65.4-53.1-118.5-118.5-118.4z m-161.8 402.2c20.2 0 36.6 16.4 36.5 36.6 0 20.2-16.4 36.6-36.5 36.6l-170.7 0c-20.2 0-36.6-16.4-36.6-36.6 0-20.2 16.4-36.6 36.6-36.6l170.7 0z m73.1-207.2c20.2 0 36.6 16.4 36.6 36.6 0 20.2-16.4 36.6-36.6 36.5l-243.8 0c-20.2 0-36.6-16.4-36.6-36.5 0-20.2 16.4-36.6 36.6-36.6l243.8 0z"
+          ></path>
+        </svg>
+        <span>Tus pedidos</span>
+      </li>
+
+      <!-- <li class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200">
+        <svg
+          class="lwmSnnip"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+        >
+          <path
+            d="M536.2 551c220.6 0 353.2 78.6 397.8 236 15.3 54.3-16.3 110.7-70.7 125.9-9 2.5-18.3 3.8-27.6 3.8l-598.6 0c-56.4 0.1-102.2-45.6-102.3-102 0-9.4 1.3-18.7 3.9-27.7 44.4-157.3 176.9-235.9 397.5-236z m0 73.2c-190.6 0-292.7 60.6-327.2 182.8-0.7 2.4-1 5-1 7.6 0 16 13 29 29.1 29l598.6 0c2.7 0 5.3-0.4 7.8-1.1 15.4-4.3 24.4-20.3 20.1-35.6-34.6-122.2-136.8-182.7-327.4-182.7z m0.2-563.2c-114.5 0-207.2 92.8-207.3 207.2 0 114.5 92.8 207.2 207.3 207.2 114.5 0 207.2-92.8 207.2-207.2 0-114.5-92.8-207.2-207.2-207.2z m0 73.1c74.1 0 134.1 60 134.1 134.1 0 74.1-60 134.1-134.1 134.1-74.1 0-134.1-60-134.1-134.1 0-74.1 60-134.1 134.1-134.1z"
+          ></path>
+        </svg>
+        <span>Tu perfil</span>
+      </li> -->
+
+      <li [routerLink]="['/account/favorites']" class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200">
+        <svg
+          class="lwmSnnip"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+        >
+          <path
+            d="M859.5 193.4l-7.1-4.9-9.3-5.8c-97-57.8-219.4-41.7-297.9 35.3l-8.5 8.8-2.1-2.2c-81.8-86.2-215.3-102.5-316-34.4-112.4 76.1-141.8 228.8-65.7 341.2 29.9 44.2 62.7 87.4 98.3 129.6 35.1 41.7 73 82.4 113.6 122.2l27.3 26.8c81.6 79.8 212.3 78.7 292.5-2.6l26.9-27.3c38.1-38.6 74.3-78.2 108.5-118.8 34.4-40.8 66.8-82.6 97.2-125.3 78.7-110.6 52.8-264-57.7-342.6z m-1.9 300.2c-29.3 41.1-60.5 81.4-93.5 120.6-33 39.1-67.9 77.3-104.7 114.6l-26.9 27.2c-51.9 52.5-136.5 53.3-189.2 1.7l-27.3-26.8c-39-38.1-75.3-77.1-108.9-117-33.9-40.3-65.2-81.4-93.6-123.5-53.4-78.9-32.7-186.2 46.2-239.6 76.9-52.1 181.2-33.9 235.8 40.8l1.1 1.6c15.5 22.1 45.9 27.5 68.1 12l4-3.1 4.3-4.3 1.4-1.5c55.9-78.4 160-97.8 237.3-47l5.9 4c74.5 53 94 155.4 45.3 232.4l-5.3 7.9z"
+          ></path>
+        </svg>
+        <span>Favoritos</span>
+      </li>
+
+      <li [routerLink]="['/account/coupons']" class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200">
+        <svg
+          class="lwmSnnip"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+        >
+          <path
+            d="M780.2 158.5c101 0 182.9 81.9 182.8 182.8l0 67.2c0 15.5-9.8 29.3-24.3 34.5-29 10.2-48.8 37.7-48.8 69 0 31.2 19.8 58.7 48.8 69 14.6 5.2 24.4 19 24.3 34.5l0 67.2c0 101-81.9 182.9-182.8 182.8l-487.6 0c-101 0-182.9-81.9-182.9-182.8l0-67.2c0-15.5 9.8-29.3 24.4-34.5l6.5-2.7c25.4-11.8 42.3-37.5 42.3-66.3 0-31.3-19.8-58.8-48.8-69l-4.7-2c-12-6.2-19.7-18.7-19.7-32.5l0-67.2c0-101 81.9-182.9 182.9-182.8z m0 73.1l-487.6 0c-60.6 0-109.7 49.1-109.7 109.8l-0.1 43.9c42 24.4 69.8 68.1 72.9 117.4l0.3 9.3c0 53.1-28.6 100.8-73.2 126.7l0.1 44c0 58.1 45.1 105.6 102.2 109.4l7.5 0.3 487.6 0c60.6 0 109.7-49.1 109.7-109.7l0-44c-41.9-24.4-69.7-68.1-72.8-117.4l-0.3-9.3c0-53.1 28.6-100.8 73.1-126.8l0-43.9c0-58.1-45.1-105.6-102.2-109.4l-7.5-0.3z m-121.9 377.9c26.9 0 48.8 21.8 48.7 48.8 0 26.9-21.8 48.8-48.7 48.7-26.9 0-48.8-21.8-48.8-48.7 0-26.9 21.8-48.8 48.8-48.8z m0-146.3c26.9 0 48.8 21.8 48.7 48.8 0 26.9-21.8 48.8-48.7 48.8-26.9 0-48.8-21.8-48.8-48.8 0-26.9 21.8-48.8 48.8-48.8z m0-146.2c26.9 0 48.8 21.8 48.7 48.7 0 26.9-21.8 48.8-48.7 48.8-26.9 0-48.8-21.8-48.8-48.8 0-26.9 21.8-48.8 48.8-48.7z"
+          ></path>
+        </svg>
+        <span>Cupones y ofertas</span>
+      </li>
+
+      <li [routerLink]="['/account/address']" class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200">
+        <svg
+          class="lwmSnnip"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+        >
+          <path
+            d="M536.4 61c222.2 0 402.3 181.5 402.3 405.3 0 14.7-0.9 29.5-2.8 46.1l-2.9 20c-1.3 8.3-2.9 16.6-5 25.4l-4 15.8c-18.1 66.4-52.6 126.7-99.2 174.8l-11 10.9c-37.8 39.6-93.4 85.2-167.2 137.1-66.1 46.5-154.3 46.5-220.4 0-73.8-51.9-129.4-97.5-166-135.9-57.2-54.5-97.5-124.7-115.2-201.8l-3.1-14.2c-1.5-8.1-2.9-16.3-4-24.9l-0.6-3.8-2.1-20c-0.8-10-1.1-19.8-1.1-29.5 0-223.8 180-405.3 402.3-405.3z m0 73.1c-181.7 0-329.1 148.7-329.2 332.2 0 11.8 0.7 24 2.1 36.4l2.7 17.9c1.1 6.6 2.2 12.9 3.4 18.5l4.4 17.2c16.1 57.9 47.7 110.1 92.1 152.5 34 35.6 86.2 78.4 156.4 127.7 40.9 28.7 95.4 28.7 136.2 0.1 70.2-49.4 122.4-92.1 157.6-129 46.9-44.7 79.9-102.2 94.2-164.4l2.7-12.5 1.8-10.2 2.6-17.5c1.4-12.7 2.1-24.8 2.1-36.7 0-183.5-147.4-332.2-329.1-332.2z m0 182.9c87.5 0 158.5 70.9 158.5 158.4 0 87.5-70.9 158.5-158.5 158.5-87.5 0-158.5-71-158.5-158.5 0-87.5 70.9-158.5 158.5-158.4z m0 73.1c-47.1 0-85.3 38.2-85.4 85.3 0 47.1 38.2 85.3 85.4 85.4 47.1 0 85.3-38.2 85.3-85.4 0-47.1-38.2-85.3-85.3-85.3z"
+          ></path>
+        </svg>
+        <span>Direcciones</span>
+      </li>
+
+      <li [routerLink]="['/account/notifications']" class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200">
+        <svg
+          class="lwmSnnip"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+        >
+          <path
+            d="M722.7 109.7c105.8 0 191.6 85.8 191.6 191.6l0 161.9c0 20.2-16.4 36.6-36.6 36.6-20.2 0-36.6-16.4-36.6-36.6l0-161.9c0-65.4-53.1-118.5-118.4-118.4l-372.6 0c-65.4 0-118.5 53.1-118.5 118.4l0 421.4c0 65.4 53.1 118.5 118.5 118.4l152.1 0c20.2 0 36.6 16.4 36.6 36.6 0 20.2-16.4 36.6-36.6 36.6l-152.1 0c-105.8 0-191.6-85.8-191.6-191.6l0-421.4c0-105.8 85.8-191.6 191.6-191.6l372.6 0z m-20.5 409.8c27.2-15.7 60.6-15.7 87.7 0l96.6 55.8c27.2 15.7 43.9 44.7 43.9 76l0 111.5c0 31.4-16.7 60.3-43.9 76l-96.6 55.8c-27.2 15.7-60.6 15.7-87.7 0l-96.6-55.8c-27.2-15.7-43.9-44.7-43.9-76l0-111.5c0-31.4 16.7-60.3 43.9-76z m51.2 63.3c-4.5-2.6-10.1-2.6-14.7 0l-96.6 55.8c-4.5 2.6-7.3 7.4-7.3 12.7l0 111.5c0 5.2 2.8 10.1 7.3 12.7l96.6 55.8c4.5 2.6 10.1 2.6 14.7 0l96.6-55.8c4.5-2.6 7.3-7.4 7.3-12.7l0-111.5c0-5.2-2.8-10.1-7.3-12.7z m-7.3 75.5c26.9 0 48.8 21.8 48.7 48.7 0 26.9-21.8 48.8-48.7 48.8-26.9 0-48.8-21.8-48.8-48.8 0-26.9 21.8-48.8 48.8-48.7z m-273.1-87.8c21.5 0 39 17.5 39 39 0 21.5-17.5 39-39 39l-68.3 0c-21.5 0-39-17.5-39-39 0-21.5 17.5-39 39-39l68.3 0z m146.3-204.8c21.5 0 39 17.5 39 39 0 21.5-17.5 39-39 39l-214.6 0c-21.5 0-39-17.5-39-39 0-21.5 17.5-39 39-39l214.6 0z"
+          ></path>
+        </svg>
+        <span>Notificaciones</span>
+      </li>
+
+      <hr class="text-center border-t border-gray-300 my-2 w-[95%]" />
+
+      <li
+        (click)="logout()"
+        class="flex items-center space-x-2 py-2 px-4 hover:bg-gray-200"
+      >
+        <svg
+          class="_3cYTr7zU"
+          alt=""
+          aria-label=""
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1.3em"
+          height="1.3em"
+          role="img"
+          fill="#000000"
+        >
+          <path
+            d="M256 102.4c-45.5 0-82.9 35-86.7 79.5l-0.3 7.5 0 66.6c0 19.8 16 35.8 35.8 35.8 18.1 0 33.1-13.5 35.5-30.9l0.3-4.9 0-66.6c0-7.3 5.1-13.4 11.9-14.9l3.5-0.4 545.6 0c9.3 0 17.3 7.1 19.2 16.9l0.4 4.3 0 628.2c0 10.5-6.9 18.9-15.7 20.9l-3.9 0.4-545.6 0c-7.3 0-13.4-5.1-15-11.8l-0.4-3.6 0-61.2c0-19.8-16-35.8-35.8-35.9-18.1 0-33.1 13.5-35.5 31l-0.3 4.9 0 61.2c0 45.5 35 82.9 79.5 86.8l7.5 0.3 545.6 0c48.1 0 87.2-37.8 91-85.4l0.3-7.6 0-628.2c0-48.5-36.7-88.7-83.8-92.6l-7.5-0.3-545.6 0z m-49.1 255.7l-130.4 130.4c-14 14-14 36.7 0 50.7l130.4 130.3c14 14 36.7 14 50.7 0 14-14 14-36.7 0-50.7l-70.9-71 342.5 0c19.8 0 35.8-16 35.8-35.8 0-19.8-16-35.8-35.8-35.8l-339 0 67.4-67.4c14-14 14-36.7 0-50.7-14-14-36.7-14-50.7 0z"
+          ></path>
+        </svg>
+        <span>Cerrar sesión</span>
+      </li>
+    </ul>
+  </section>
+}
+
+<!-- DESKTOK MENU -->
+<!-- border-b border-r border-l  -->
+<section
+  class="fixed left-0 right-0 z-30 w-full -mt-3 fade-in"
+  (mouseenter)="mouseHoverOnCategories = true"
+  (mouseleave)="mouseHoverOnCategories = false"
+  *ngIf="desktopGlobalMenu() && isHeaderVisible"
+>
+  <div class="h-2 bg-transparent"></div>
+  <div
+    class="mx-auto flex max-w-[1200px] py-10 bg-white border-b border-r border-l"
+  >
+    <div class="w-[300px] border-r">
+      <ul class="px-5">
+        <li
+          *ngFor="let category of categories; let i = index"
+          (click)="selectCategory(i)"
+          [class.bg-[#051C2C]]="i === selectedCategoryIndex"
+          [ngClass]="{
+            'hover:bg-neutral-100': i !== selectedCategoryIndex,
+            'text-white': i === selectedCategoryIndex
+          }"
+          class="flex items-center gap-2 py-2 px-3 cursor-pointer rounded-md"
+        >
+          {{ category.name }}
+          <span class="ml-auto">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m8.25 4.5 7.5 7.5-7.5 7.5"
+              ></path>
+            </svg>
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div
+      *ngIf="selectedCategoryIndex !== null"
+      class="flex w-full justify-between"
+    >
+      <div class="flex gap-6">
+        <div
+          *ngFor="
+            let subcategory of categories[selectedCategoryIndex].subcategories
+          "
+          class="mx-5"
+        >
+          <p class="font-medium text-slate-900">
+            {{ subcategory.name.toUpperCase() }}
+          </p>
+          <ul class="text-sm leading-8">
+            <li *ngFor="let opt of subcategory.opciones">
+              <!-- <a href="{{ opt.link }}" class="hover:font-semibold">{{
+                opt.name
+              }}</a> -->
+              <a
+                href="javascript:void()"
+                (click)="
+                  goProductsByCategory(subcategory.name, opt.value, opt.type)
+                "
+                >{{ opt.name }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-login-modal></app-login-modal>

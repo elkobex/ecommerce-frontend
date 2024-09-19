@@ -1,0 +1,699 @@
+<div id="cartContainer">
+  <section class="bg-white pb-8 pt-4 antialiased md:pb-16 md:pt-8">
+    <div class="mx-auto max-w-[1400px] px-4 2xl:px-0">
+
+      <div
+        class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8 relative"
+      >
+      <!-- h-[75vh] -->
+        <div
+          #articles
+          class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl min-h-[30vh] md:min-h-[57vh] max-h-[75vh] overflow-y-auto"
+        >
+          <ol
+            class="items-center flex w-full text-center text-sm font-medium text-gray-500 sm:text-base mb-8"
+          >
+            <li
+              class="after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b after:border-gray-200 sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+            >
+              <span
+                class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] dark:after:text-gray-500 sm:after:hidden"
+              >
+                <svg
+                  class="me-2 h-4 w-4 sm:h-5 sm:w-5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                Carrito
+              </span>
+            </li>
+
+            <li
+              class="after:border-1 flex items-center after:mx-6 after:hidden after:h-1 after:w-full after:border-b sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+            >
+              <span
+                class="flex items-center after:mx-2 after:text-gray-200 after:content-['/'] sm:after:hidden"
+              >
+                <svg
+                  class="me-2 h-4 w-4 sm:h-5 sm:w-5"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                Facturación
+              </span>
+            </li>
+
+            <li class="flex shrink-0 items-center">
+              <svg
+                class="me-2 h-4 w-4 sm:h-5 sm:w-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              Confirmación
+            </li>
+          </ol>
+
+          @if (!isEskeleton()) {
+            <div class="space-y-6" [ngClass]="{ 'opacity-20': modalLoading() }">
+              @for (item of itemsCard; track $index) {
+                <div
+                  [ngClass]="{ 'border-t': $index === 0 }"
+                  class="border-b border-gray-200 p-2 md:p-6"
+                >
+                  <div class="flex space-x-4 md:space-x-8">
+                    <a href="#" class="shrink-0 md:order-1">
+                      <img
+                        class="h-20 md:h-24 md:w-20 rounded object-cover"
+                        src="{{ serverUrl }}/{{ item.product.color?.imagen }}"
+                        [alt]="item.product.name"
+                      />
+                    </a>
+
+                    <div
+                      class="hidden md:flex flex-col items-start md:order-3 md:justify-start"
+                    >
+                      <p class="text-base font-bold text-gray-900">
+                        {{
+                          item.product.price * item.quantity | currency: "MXN"
+                        }}
+                      </p>
+                      <p class="text-gray-400 line-through">
+                        {{ item.product.originalPrice | currency: "MXN" }}
+                      </p>
+                      <div class="border border-orange-600 rounded-md">
+                        <span class="text-orange-600 text-sm px-2">
+                          -
+                          {{
+                            calculateSavings(
+                              item.product.originalPrice,
+                              item.product.price
+                            )
+                          }}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <div
+                      class="w-full min-w-0 flex-1 space-y-4 items-start md:order-2 md:max-w-md"
+                    >
+                      <a
+                        href="javascript:void(0)"
+                        (click)="goToDetailPage(item)"
+                        class="text-lg font-medium text-gray-900 hover:underline"
+                        >{{ item.product.name }}</a
+                      >
+
+                      <div
+                        class="flex items-center justify-between md:justify-start gap-4"
+                      >
+                        <div class="flex items-center space-x-4 md:space-x-8">
+                          <select
+                            #quantity
+                            [value]="item.quantity"
+                            (change)="itemQuantyChange(item, quantity.value)"
+                            id="Line1Qty"
+                            [disabled]="modalLoading()"
+                            class="h-8 w-14 rounded border border-slate-300 bg-gray-50 p-0 text-center text-sm md:text-base text-gray-600 focus:outline-none"
+                          >
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                          </select>
+
+                          <!-- inline-flex items-center md:hidden -->
+                          <div class="flex flex-col justify-center md:hidden">
+                            <p class="text-md font-bold text-gray-900">
+                              {{
+                                item.product.price * item.quantity
+                                  | currency: "MXN"
+                              }}
+                            </p>
+                            <p class="text-gray-400 line-through">
+                              {{ item.product.originalPrice | currency: "MXN" }}
+                            </p>
+                          </div>
+
+                          <!-- (click)="deleteItemCart(item); $event.stopPropagation();" -->
+                          <div #tooltip class="relative">
+                            <button
+                              type="button"
+                              (click)="
+                                toggleTooltip($index); $event.stopPropagation()
+                              "
+                              class="hidden md:inline-flex items-center text-sm font-medium text-red-600 hover:underline"
+                              [disabled]="modalLoading()"
+                            >
+                              <svg
+                                class="me-1.5 h-5 w-5"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M6 18 17.94 6M18 18 6.06 6"
+                                />
+                              </svg>
+                              Eliminar
+                            </button>
+
+                            <!-- Tooltip de confirmación -->
+                            <div
+                              *ngIf="
+                                showDeleteConfirmation() &&
+                                tooltipIndex === $index
+                              "
+                              class="absolute hidden md:block mt-2 w-64 rounded-md bg-white shadow-xl border border-gray-300 left-1/2 transform -translate-x-1/2"
+                              (click)="$event.stopPropagation()"
+                            >
+                              <div
+                                class="absolute -top-2.5 w-4 h-4 bg-[#051C2C] transform rotate-45 left-1/2 -translate-x-1/2"
+                              ></div>
+                              <div class="rounded-md shadow-lg p-4">
+                                <div class="flex flex-col items-center">
+                                  <p
+                                    class="text-sm leading-5 font-medium text-gray-900"
+                                  >
+                                    ¿Está seguro/a de que quieres eliminar este
+                                    artículo?
+                                  </p>
+                                  <div class="mt-3 flex space-x-4">
+                                    <button
+                                      type="button"
+                                      class="rounded-md bg-[#051C2C] px-4 py-2 text-sm text-white hover:bg-slate-800 focus:outline-none"
+                                      (click)="
+                                        confirmDelete(item); closeTooltip()
+                                      "
+                                    >
+                                      Sí
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="rounded-md px-4 py-2 text-sm border border-slate-900 focus:outline-none"
+                                      (click)="closeTooltip()"
+                                    >
+                                      No
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="flex items-center rounded-full bg-gray-200 md:hidden relative"
+                        >
+                          <!-- (click)="deleteItemCart(item)" -->
+                          <button
+                            (click)="
+                              toggleTooltip($index); $event.stopPropagation()
+                            "
+                            class="text-red-600 md:hidden p-2"
+                            [disabled]="modalLoading()"
+                          >
+                            <span class="sr-only">Remove item</span>
+                            <svg
+                              viewBox="0 0 1024 1024"
+                              version="1.1"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.2em"
+                              height="1.2em"
+                              class="_3fYZfW21"
+                              aria-hidden="true"
+                              alt="Borrar"
+                              fill="currentColor"
+                            >
+                              <path
+                                d="M603.4 96c47.7 0 86.9 36.4 91.3 82.9l0.5 8.8-0.1 75.1 168.9 0c24.7 0 44.8 20.1 44.8 44.8 0 22.7-16.9 41.4-38.7 44.4l-6.1 0.4-20.5 0-46.2 436.2c-5.5 52.1-47.2 92.3-98.5 96.9l-9.7 0.4-354.2 0c-52.4 0-96.8-37.2-106.7-87.7l-1.5-9.6-46.2-436.2-20.5 0c-24.7 0-44.8-20.1-44.8-44.8 0-22.7 16.9-41.4 38.7-44.3l6.1-0.5 169 0 0-75.1c0-47.7 36.4-86.9 82.9-91.3l8.8-0.4 182.7 0z m149.9 256.4l-482.7 0 45.2 426.7c0.9 8.4 7.1 15 15 16.8l4.1 0.4 354.2 0c8.4 0 15.7-5.4 18.2-13.1l0.9-4.1 45.1-426.7z m-149.9-166.8l-182.7 0c-0.8 0-1.5 0.4-1.8 1.1l-0.3 1 0 75.1 186.9 0 0.1-75.1c0-0.8-0.4-1.5-1.1-1.8l-1.1-0.3z"
+                              ></path>
+                            </svg>
+                          </button>
+
+                          <!-- Tooltip de confirmación -->
+                          <div
+                            *ngIf="
+                              showDeleteConfirmation() &&
+                              tooltipIndex === $index
+                            "
+                            class="md:hidden absolute mt-2 w-64 rounded-md bg-white shadow-xl border border-gray-300 right-0 top-10"
+                            (click)="$event.stopPropagation()"
+                          >
+                            <div
+                              class="absolute -top-2.5 w-4 h-4 bg-slate-700 transform rotate-45 right-2"
+                            ></div>
+                            <div class="rounded-md shadow-lg p-4">
+                              <div class="flex flex-col items-center">
+                                <p
+                                  class="text-sm leading-5 font-medium text-gray-900"
+                                >
+                                  ¿Está seguro/a de que quieres eliminar este
+                                  artículo?
+                                </p>
+                                <div class="mt-3 flex space-x-4">
+                                  <button
+                                    type="button"
+                                    class="rounded-md bg-slate-700 px-4 py-2 text-sm text-white hover:bg-slate-900 focus:outline-none"
+                                    (click)="
+                                      confirmDelete(item); closeTooltip()
+                                    "
+                                  >
+                                    Sí
+                                  </button>
+                                  <button
+                                    type="button"
+                                    class="rounded-md px-4 py-2 text-sm border border-slate-700 focus:outline-none"
+                                    (click)="closeTooltip()"
+                                  >
+                                    No
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="inline-flex items-center space-x-1">
+                        <svg
+                          viewBox="0 0 1024 1024"
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1em"
+                          height="1em"
+                          role="img"
+                          alt=""
+                          aria-label=""
+                          fill="#94a3b8"
+                          aria-hidden="true"
+                        >
+                          <title>5&nbsp;categorias</title>
+                          <path
+                            d="M848.7 133.8c62.1 0 112.5 52.1 112.4 116.3l0 481c0 64.2-50.4 116.3-112.4 116.3l-212.5 0c-8.9 0-17.5 3.6-23.6 10.1l-86.8 90.5-0.8 0.8c-13 12.6-33.7 12.3-46.4-0.6l-88.5-90.9c-6.2-6.3-14.6-9.9-23.4-9.9l-191.4 0c-59.3 0-107.9-47.4-112.1-107.6l-0.3-8.7 0-481c0-64.2 50.4-116.3 112.4-116.3z m-329.7 178.4c-10-3.4-20.8 2.1-24.1 12.4l-34.2 106.1-108.2 0.8c-6 0-11.7 3-15.2 8-6.3 8.8-4.5 21.1 4 27.6l87.1 66.4-32.7 106.6c-1.8 5.9-0.8 12.4 2.7 17.4 6.1 8.9 18.1 10.9 26.6 4.6l88-65.1 88 65.1c4.9 3.6 11.1 4.6 16.8 2.7 10-3.3 15.6-14.4 12.4-24.7l-32.6-106.6 87-66.4c4.8-3.7 7.7-9.5 7.8-15.7 0.1-10.9-8.4-19.8-19-19.9l-108.1-0.8-34.2-106.1c-1.9-5.9-6.4-10.5-12.1-12.4z"
+                          ></path>
+                        </svg>
+                        <span class="text-slate-600">{{
+                          item.product.category
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              } @empty {
+                <div class="flex flex-col items-center justify-center h-full space-x-2 pt-2 pb-8 rounded-b-lg"
+                >
+                  <svg
+                    width="7em"
+                    height="7em"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1024 1024"
+                    class="fill-current text-gray-400"
+                  >
+                    <path
+                      d="M356.7 726.2c-30.6 0-55.5 24.8-55.5 55.5 0 30.6 24.8 55.5 55.5 55.4 30.6 0 55.5-24.8 55.5-55.4 0-30.6-24.8-55.5-55.5-55.5z m0 17.1c21.2 0 38.4 17.2 38.4 38.4 0 21.2-17.2 38.4-38.4 38.4-21.2 0-38.4-17.2-38.4-38.4 0-21.2 17.2-38.4 38.4-38.4z m319.1-17.1c-30.6 0-55.5 24.8-55.4 55.5 0 30.6 24.8 55.5 55.4 55.4 30.6 0 55.5-24.8 55.5-55.4 0-30.6-24.8-55.5-55.5-55.5z m0 17.1c21.2 0 38.4 17.2 38.4 38.4 0 21.2-17.2 38.4-38.4 38.4-21.2 0-38.4-17.2-38.4-38.4 0-21.2 17.2-38.4 38.4-38.4z m-552.8-486.9c4.8 0 9.3 0.3 15.4 1.4 9.3 1.6 18.4 4.6 27 9.4 15.4 8.6 27.5 22 35 40.7l1 2.9 0.4 1.3 8.3 45.7 11.1 63.9 24.8 144.8 7.2 42.8c6.1 34.3 38 60 76 61l2.4 0 358.2 0c38.4 0 71-25.1 78.1-59.4l0.4-2.1 50.1-248.1c0.9-4.6 5.4-7.6 10.1-6.7 4.3 0.9 7.2 4.8 6.8 9.1l-0.1 1-50.2 247.8c-7.4 42.8-46.6 74.3-92.7 75.4l-2.5 0.1-358.2 0c-47.1 0-87.5-31.7-95.2-75.2l-24.4-143.5-15.4-88.8-9-50.4-2.4-13.5-0.9-2.2c-5.6-13.9-14.2-23.7-25-30.4l-2.2-1.3c-6.8-3.8-14.2-6.2-21.7-7.5-4.1-0.7-7.3-1-10.4-1.1l-2 0-87.9 0c-4.7 0-8.5-3.8-8.6-8.5 0-4.4 3.3-8 7.6-8.5l1-0.1 87.9 0z m283.6 265.2l0 17.1-58 0 0-17.1 58 0z m92.2 0l0 17.1-58.1 0 0-17.1 58.1 0z m92.1 0l0 17.1-58 0 0-17.1 58 0z m92.2 0l0 17.1-58 0 0-17.1 58 0z m-329.8-155.8l0 17.1-58 0 0-17.1 58 0z m92.2 0l0 17.1-58 0 0-17.1 58 0z m92.1 0l0 17.1-58 0 0-17.1 58 0z m92.2 0l0 17.1-58 0 0-17.1 58 0z m92.2 0l0 17.1-58.1 0 0-17.1 58.1 0z"
+                    ></path>
+                  </svg>
+                  <div lass="text-center px-1" bis_skin_checked="1">
+                    El carrito de compras está vacío.
+                  </div>
+
+                  <div class="mt-2">
+                    <a [routerLink]="['/products']" class="inline-block px-4 py-2 text-sm text-slate-700 border border-slate-700  bg-white rounded-md shadow transition-transform duration-300 ease-in-out transform hover:scale-105">
+                      Ver productos
+                    </a>
+                  </div>
+
+                  <div class="h-[4.8rem]"></div>
+                </div>
+                <!-- <div class="w-full flex justify-center items-center">
+                </div> -->
+              }
+            </div>
+          } @else {
+            <div class="space-y-6 animate-pulse">
+              @for (item of fakeItems; track $index) {
+                <div class="border-b border-gray-200 p-2 md:p-6">
+                  <div class="flex space-x-4 md:space-x-8">
+                    <div class="shrink-0 md:order-1">
+                      <div
+                        class="bg-gray-200 w-16 h-20 md:h-24 md:w-20 rounded object-cover"
+                      ></div>
+                    </div>
+
+                    <div
+                      class="hidden md:flex flex-col items-start md:order-3 md:justify-start space-y-1 text-transparent"
+                    >
+                      <p class="bg-gray-200 rounded-md text-base font-bold">
+                        <span class="invisible">MX$000.00</span>
+                      </p>
+                      <p class="bg-gray-200 rounded-md">
+                        <span class="invisible">MX$000.00</span>
+                      </p>
+                      <div class="bg-gray-200 rounded-md">
+                        <span class="invisible text-sm px-2"> 0.0% </span>
+                      </div>
+                    </div>
+
+                    <div
+                      class="w-full min-w-0 flex-1 space-y-4 items-start md:order-2 md:max-w-md"
+                    >
+                      <div
+                        class="bg-gray-200 rounded-md text-lg text-transparent"
+                      >
+                        <span class="invisible"
+                          >Sandalias de Diapositivas Psycho Bunny Bunny Logo
+                          Hombre Negros</span
+                        >
+                      </div>
+
+                      <div
+                        class="flex items-center justify-between md:justify-start gap-4"
+                      >
+                        <div
+                          class="flex items-center space-x-4 md:space-x-8 text-transparent"
+                        >
+                          <div class="bg-gray-200 rounded-md h-10 w-14"></div>
+
+                          <!-- inline-flex items-center md:hidden -->
+                          <div class="flex flex-col justify-center md:hidden">
+                            <p class="bg-gray-200 rounded-md text-md">
+                              <span class="invisible">MX$000.00</span>
+                            </p>
+                          </div>
+
+                          <div class="bg-gray-200 rounded-md hidden md:block">
+                            <span class="invisible">Boton eliminar</span>
+                          </div>
+                        </div>
+
+                        <div
+                          class="bg-gray-200 flex items-center rounded-full md:hidden relative"
+                        >
+                          <div class="w-8 h-8"></div>
+                        </div>
+                      </div>
+
+                      <div class="inline-flex items-center space-x-1">
+                        <span class="bg-gray-200 rounded-md text-transparent">
+                          <span class="invisible"
+                            >Sandalias de Diapositivas</span
+                          >
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+          @if (!isEskeleton()) {
+            <div
+              class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
+            >
+              <p class="text-xl font-semibold text-gray-900">
+                Resumen del pedido
+              </p>
+
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">
+                      Total de artículos:
+                    </dt>
+                    <dd
+                      class="text-base font-medium text-gray-600 line-through"
+                    >
+                      {{ totalPrices().totalOriginalPrice | currency: "MXN" }}
+                    </dd>
+                  </dl>
+
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">
+                      Descuento de artículo(s):
+                    </dt>
+                    <dd class="text-base font-medium text-green-600">
+                      -{{ totalPrices().totalSavings | currency: "MXN" }}
+                    </dd>
+                  </dl>
+
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">Ahorro</dt>
+                    <dd class="text-base font-medium text-green-600">
+                      {{ totalPrices().totalSavingsPercentage.toString() }}%
+                    </dd>
+                  </dl>
+
+                  <dl class="flex items-center justify-between gap-4">
+                    <dt class="text-base font-normal text-gray-500">
+                      Cantidad
+                    </dt>
+                    <dd class="text-base font-medium text-gray-900">
+                      {{ totalItemsCardQuanty() }}.00
+                    </dd>
+                  </dl>
+                </div>
+
+                <dl
+                  class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+                >
+                  <dt class="text-base font-bold text-gray-900">
+                    Total estimado
+                  </dt>
+                  <dd class="text-base font-bold text-gray-900">
+                    {{ totalPrices().totalOfferPrice | currency: "MXN" }}
+                  </dd>
+                </dl>
+
+                @if (itemsCard && itemsCard.length) {
+                  <div
+                    class="flex flex-col space-y-1 bg-white border border-orange-500 rounded-md p-1"
+                  >
+                    <span class="font-semibold text-center text-orange-500"
+                      >📦 Fechas Estimadas de Envío</span
+                    >
+                    <span class="text-sm text-slate-900"
+                      >La fecha estimada para la entrega de tu pedido podría
+                      estar entre el
+                      <strong class="text-orange-500">{{
+                        delivery().fisrtDate
+                      }}</strong>
+                      y el
+                      <strong class="text-orange-500">{{
+                        delivery().secondDate
+                      }}</strong
+                      >.</span
+                    >
+                  </div>
+
+                  <div class="flex space-x-1 items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      version="1.1"
+                      viewBox="0 0 1024 1024"
+                      role="img"
+                      fill="#0a8800"
+                      aria-hidden="true"
+                      class="h-8 w-8 md:h-6 md:w-6 lg:h-8 lg:w-8 ng-tns-c2161066273-0"
+                    >
+                      <path
+                        d="M742.4 716.8c56.6 0 102.4 45.8 102.4 102.4 0 56.6-45.8 102.4-102.4 102.4-56.6 0-102.4-45.8-102.4-102.4 0-56.6 45.8-102.4 102.4-102.4z m-409.6 0c56.6 0 102.4 45.8 102.4 102.4 0 56.6-45.8 102.4-102.4 102.4-56.6 0-102.4-45.8-102.4-102.4 0-56.6 45.8-102.4 102.4-102.4z m416.2-542.7c38.8 0 70.2 31.4 70.2 70.2l0 62.1 153.7 64.4c26.1 10.9 43.1 36.5 43.1 64.7l0 241.1c0 38.8-31.4 70.2-70.2 70.2l-67.9 0c-25.9-48.3-76.8-81.2-135.5-81.2-63.8 0-118.6 38.9-141.8 94.4l-126 0c-23.2-55.4-77.9-94.4-141.8-94.4-63.8 0-118.6 38.9-141.8 94.4l-10.7 0c-38.8 0-70.2-31.4-70.2-70.2l-0.1-126.6-66.1 0c-24.2 0-43.9-19.6-43.9-43.9l0-14.6c0-24.2 19.6-43.9 43.9-43.9l250.5 0c49.5 0 89.6-40.1 89.6-89.6 0-49.5-40.1-89.6-89.6-89.6l-179.2 0c-1.7 0-3.5 0-5.2 0.1l0.1-37.4c0-38.8 31.4-70.2 70.2-70.2l568.7 0z m70.2 235.5l0 153.6 66.7 0c18.4 0 35.5-13.2 35.5-31.3l0.2-58.9c0-15.3-8.8-27.2-22.3-32.6l-80.1-30.8z m-524.8-76.8c21.2 0 38.4 17.2 38.4 38.4 0 21.2-17.2 38.4-38.4 38.4l-179.2 0c-21.2 0-38.4-17.2-38.4-38.4 0-21.2 17.2-38.4 38.4-38.4l179.2 0z"
+                        class="ng-tns-c2161066273-0"
+                      ></path>
+                    </svg>
+                    <span class="text-sm inline-flex flex-wrap"
+                      >Aprovecha la oferta actual y haz tu pedido sin ningún
+                      costo de envío.</span
+                    >
+                  </div>
+                }
+              </div>
+
+              @if (itemsCard && itemsCard.length) {
+                <a
+                  href="javascript:void(0)"
+                  (click)="goToOtherPage('billing')"
+                  class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                  >Hacer pedido ({{totalItemsCardQuanty()}})</a
+                >
+
+                <div class="flex items-center justify-center gap-2">
+                  <a
+                    href="javascript:void(0)"
+                    (click)="goToOtherPage('products')"
+                    title=""
+                    class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline"
+                  >
+                    Continuar comprando
+                    <svg
+                      class="h-5 w-5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 12H5m14 0-4 4m4-4-4-4"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              } @else {
+                <a
+                  href="javascript:void(0)"
+                  class="flex w-full items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-500 cursor-not-allowed focus:outline-none focus:ring-4"
+                  aria-disabled="true"
+                  >Hacer pedido (0)</a
+                >
+              }
+            </div>
+          } @else {
+            <div
+              class="space-y-4 rounded-lg bg-gray-50 p-4 shadow-sm sm:p-6 animate-pulse"
+            >
+              <div class="h-6 bg-gray-200 rounded"></div>
+
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <!-- Total de artículos -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+
+                  <!-- Descuento de artículo(s) -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+
+                  <!-- Ahorro -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+
+                  <!-- Cantidad -->
+                  <div class="flex items-center justify-between gap-4">
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  </div>
+                </div>
+
+                <!-- Total estimado -->
+                <div
+                  class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2"
+                >
+                  <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                  <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+                </div>
+
+                <!-- Fechas Estimadas de Envío -->
+                <div class="flex flex-col space-y-1 rounded-md p-1">
+                  <div class="h-6 bg-gray-200 rounded w-full"></div>
+                  <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-6 bg-gray-200 rounded w-3/4"></div>
+                  <div class="h-6 bg-gray-200 rounded w-full"></div>
+                </div>
+
+                <!-- Oferta de envío -->
+                <div class="flex space-x-1">
+                  <div class="h-6 bg-gray-200 rounded w-full"></div>
+                </div>
+              </div>
+
+              <!-- Botón Hacer pedido -->
+              <div class="h-10 bg-gray-200 rounded w-full"></div>
+
+              <!-- Continuar comprando -->
+              <div class="flex items-center justify-center gap-2">
+                <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (modalLoading()) {
+          <div
+            class="absolute top-0 left-2 md:left-0"
+            [ngStyle]="{
+              'margin-left': articlesContainerWidth + 'px',
+              'margin-top': articlesContainerHeight + 'px'
+            }"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+</div>

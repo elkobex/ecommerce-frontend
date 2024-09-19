@@ -1,0 +1,15 @@
+<section class="bg-white pb-8 pt-4 antialiased md:pb-16 md:pt-8">
+    <div class="mx-auto max-w-[1400px] px-4 2xl:px-0">
+
+        @if(current === "shipping"){
+          <app-shipping/>
+        }@else if(current === "privacity"){
+          <app-privacity/>
+        }@else if(current === "contact"){
+          <app-contact/>
+        }@else if(current === "returns"){
+          <app-returns/>
+        }
+
+    </div>
+</section>

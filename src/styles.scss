@@ -1,1 +1,104 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// ::view-transition-old(root) {
+//   animation: exit 2s ease 0s 1 normal forwards;
+// }
+
+// ::view-transition-new(root) {
+//   animation: enter 3s ease 0s 1 normal forwards;
+// }
+
+// @keyframes enter {
+//   0% { opacity: 0; transform: translateY(-50px); }
+//   100% { opacity: 1; transform: translateY(0); }
+// }
+
+// @keyframes exit {
+//   0% { opacity: 1; transform: scale(1); }
+//   100% { opacity: 0; transform: scale(0.6); }
+// }
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  //   border: 0;
+  background-position: center center;
+  background-size: cover;
+  // user-select: none;
+  outline-color: none;
+  // outline-color: tomato;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+  transition: overflow 0.3s ease;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+}
+
+button[name="ion-icon"] {
+  transition: transform 0.3s ease;
+
+  &:active {
+    transform: scale(0.6);
+  }
+}
+
+/* Estilo para la barra de desplazamiento */
+::-webkit-scrollbar {
+  width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+/* Estilo para el rastro de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color de fondo del rastro */
+}
+
+/* Estilo para el control deslizante de la barra de desplazamiento */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* Color de fondo del control deslizante */
+  border-radius: 1rem; /* Bordes redondeados para el control deslizante */
+}
+
+/* Estilo para el control deslizante al pasar el cursor */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color de fondo del control deslizante al pasar el cursor */
+}
+
+/* Estilos estándar para otros navegadores */
+* {
+  scrollbar-width: thin; /* 'auto' o 'thin' */
+  scrollbar-color: #9ca3af #f1f1f1; /* Color del control deslizante y del rastro */
+}
+
+:root {
+  --swiper-navigation-color: #334155; /* Color de las flechas */
+  --swiper-pagination-color: #0f172a; /* Color de los círculos de paginación */
+}

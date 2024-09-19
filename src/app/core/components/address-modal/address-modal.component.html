@@ -1,0 +1,432 @@
+<div
+  class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50"
+>
+  <div class="modal-pulse relative bg-white rounded-lg w-11/12 sm:max-w-xl p-4">
+    <!-- @if (!modalLoading()) {
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+        data-modal-toggle="successModal"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    } -->
+
+    <div class="header text-center mx-auto">
+      <h2 class="text-xl font-semibold text-slate-700">Dirección de envio</h2>
+      <div class="inline-flex items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+          width="1em"
+          height="1em"
+          role="img"
+          fill="#15803d"
+        >
+          <path
+            d="M512 30.7c138.6 0 250.9 112.3 250.9 250.9l0 61.4 35.8 0c59.5 0 108.2 46.1 112.4 104.6l0.3 8.1 0 419.8c0 62.2-50.4 112.6-112.7 112.7l-573.4 0c-62.2 0-112.6-50.4-112.7-112.7l0-419.8c0-62.2 50.4-112.6 112.7-112.7l35.8 0 0-61.4c0-134.8 106.3-244.8 239.7-250.6l11.2-0.3z m0 506.9c-22.6 0-41 18.3-41 41l0 174c0 22.6 18.3 41 41 41 22.6 0 41-18.3 41-41l0-174c0-22.6-18.3-41-41-41z m0-414.7c-87.7 0-158.7 71.1-158.7 158.7l0 56.3 317.4 0 0-56.3c0-84.6-66.2-153.8-149.7-158.5l-9-0.2z"
+          ></path>
+        </svg>
+        <span class="text-green-700">Todos los datos están cifrados</span>
+      </div>
+    </div>
+
+    <div class="modal-body py-8" [ngClass]="{ 'opacity-40': modalLoading() }">
+      <div class="space-y-4 overflow-y-auto max-h-[60vh]">
+        <form
+          [formGroup]="addressForm"
+          (ngSubmit)="onSubmit()"
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 px-2"
+        >
+          <div>
+            <label
+              for="fullName"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Nombre completo<strong class="text-red-500 ml-0.5">*</strong>
+            </label>
+
+            <input
+              type="text"
+              id="fullName"
+              formControlName="fullName"
+              class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+              placeholder="Bonnie Green"
+              required
+            />
+            @if (submitted() && addressFormCtrl["fullName"].errors) {
+              <div class="text-sm text-red-500">
+                <span *ngIf="addressFormCtrl['fullName'].errors['required']">
+                  El nombre es obligatorio.
+                </span>
+
+                <span *ngIf="addressFormCtrl['fullName'].errors?.['pattern']">
+                  El formato del nombre es invalido.
+                </span>
+              </div>
+            }
+          </div>
+
+          <div>
+            <label
+              for="phoneNumber"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Número de teléfono<strong class="text-red-500 ml-0.5">*</strong>
+            </label>
+            <div class="flex items-center">
+              <button
+                id="phoneNumberBtn"
+                data-dropdown-toggle="dropdown-phone-3"
+                class="inline-flex w-24 md:w-auto md:shrink-0 items-center rounded-s-lg border border-gray-300 bg-gray-100 px-4 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100"
+                type="button"
+              >
+                @if (
+                  addressForm.get("state") && addressForm.get("country")?.value
+                ) {
+                  @if (getCountryByCode(addressForm.get("country")?.value)) {
+                    <img
+                      class="h-4 rounded-sm mr-1"
+                      src="https://flagcdn.com/{{
+                        getCountryByCode(
+                          addressForm.get('country')?.value
+                        )?.code?.toLowerCase()
+                      }}.svg"
+                      alt=""
+                      srcset=""
+                    />
+                    {{
+                      getCountryByCode(addressForm.get("country")?.value)
+                        ?.areaCode
+                    }}
+                  }
+                }
+                <!-- <svg
+                  class="-me-0.5 ms-2 h-4 w-4"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg> -->
+              </button>
+              
+              <div class="relative w-full">
+                <!-- focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400 -->
+                <input
+                  type="text"
+                  id="phoneNumber"
+                  formControlName="phoneNumber"
+                  class="z-20 block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-e-lg bg-gray-50 focus:outline-none"
+                  placeholder=""
+                  required
+                />
+              </div>
+            </div>
+            <!-- registerForm.controls['confirmPassword'].errors['confirmedValidator' ] -->
+            @if (submitted() && addressFormCtrl["phoneNumber"].errors) {
+              <div class="text-sm text-red-500">
+                <span *ngIf="addressFormCtrl['phoneNumber'].errors['required']">
+                  El numero es obligatorio.
+                </span>
+
+                <span
+                  *ngIf="addressFormCtrl['phoneNumber'].errors['requiredLength']"
+                >
+                  El telefono esta incompleto.
+                </span>
+
+                <!-- <span
+                  *ngIf="addressFormCtrl['phoneNumber'].errors['minlength']"
+                >
+                  El formato del numero es invalido.
+                </span>
+                <span
+                  *ngIf="addressFormCtrl['phoneNumber'].errors['maxlength']"
+                >
+                  El formato del numero es invalido.
+                </span> -->
+
+                <!-- <span
+                  *ngIf="addressFormCtrl['phoneNumber'].errors['noLetters']"
+                >
+                  El numero no puede contener letras.
+                </span> -->
+              </div>
+            }
+          </div>
+
+          <div>
+            <div class="mb-2 flex items-center gap-2">
+              <label
+                for="country"
+                class="block text-sm font-medium text-gray-900"
+              >
+                Pais<strong class="text-red-500 ml-0.5">*</strong>
+              </label>
+            </div>
+            <select
+              #country
+              id="country"
+              (change)="updateCountrySelect(country.value)"
+              formControlName="country"
+              class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+            >
+              @for (country of countries; track $index) {
+                <option [value]="country.code">{{ country.name }}</option>
+                <!-- @if(country.code === userData?.country?.code){
+                    <option [value]="country.code" selected>{{country.name}}</option>
+                }@else {
+                    <option [value]="country.code">{{country.name}}</option>
+                } -->
+              }
+            </select>
+            @if (submitted() && addressFormCtrl["country"].errors) {
+              <div class="text-sm text-red-500">
+                <span *ngIf="addressFormCtrl['country'].errors['required']">
+                  El pais es obligatorio.
+                </span>
+              </div>
+            }
+          </div>
+
+          <div>
+            <div class="mb-2 flex items-center gap-2">
+              <label
+                for="state"
+                class="block text-sm font-medium text-gray-900"
+              >
+                Estado<strong class="text-red-500 ml-0.5">*</strong>
+              </label>
+            </div>
+
+            @if (
+              userData?.country?.code === "US" ||
+              userData?.country?.code === "MX"
+            ) {
+              <select
+                id="state"
+                formControlName="state"
+                class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+              >
+                @if (userData?.country?.code === "US") {
+                  @for (state of usaStates; track $index) {
+                    @if (state.code === userData?.state?.code) {
+                      <option [value]="state.code" selected>
+                        {{ state.name }}
+                      </option>
+                    } @else {
+                      <option [value]="state.code">{{ state.name }}</option>
+                    }
+                  }
+                } @else {
+                  @for (state of mexicanStates; track $index) {
+                    @if (state.code === userData?.state?.code) {
+                      <option [value]="state.code" selected>
+                        {{ state.name }}
+                      </option>
+                    } @else {
+                      <option [value]="state.code">{{ state.name }}</option>
+                    }
+                  }
+                }
+              </select>
+              @if (submitted() && addressFormCtrl["state"].errors) {
+                <div class="text-sm text-red-500">
+                  <span *ngIf="addressFormCtrl['state'].errors['required']">
+                    El estado es obligatorio.
+                  </span>
+                </div>
+              }
+            } @else {
+              <input
+                type="text"
+                id="state"
+                formControlName="state"
+                class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                placeholder="Estado"
+                required
+              />
+              @if (submitted() && addressFormCtrl["state"].errors) {
+                <div class="text-sm text-red-500">
+                  <span *ngIf="addressFormCtrl['state'].errors['required']">
+                    El estado es obligatorio.
+                  </span>
+                </div>
+              }
+            }
+          </div>
+
+          <div>
+            <label
+              for="city"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Ciudad<strong class="text-red-500 ml-0.5">*</strong>
+            </label>
+            <input
+              type="text"
+              id="city"
+              formControlName="city"
+              class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+              placeholder="Tijuana"
+              required
+            />
+            @if (submitted() && addressFormCtrl["city"].errors) {
+              <div class="text-sm text-red-500">
+                <span *ngIf="addressFormCtrl['city'].errors['required']">
+                  La ciudad es obligatoria.
+                </span>
+
+                <span *ngIf="addressFormCtrl['city'].errors?.['pattern']">
+                  El formato de la ciudad es invalido.
+                </span>
+              </div>
+            }
+          </div>
+
+          <div>
+            <label
+              for="zipCode"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Código postal<strong class="text-red-500 ml-0.5">*</strong>
+            </label>
+            <input
+              type="text"
+              id="zipCode"
+              formControlName="zipCode"
+              class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+              placeholder="00000"
+              required
+            />
+            @if (submitted() && addressFormCtrl["zipCode"].errors) {
+              <div class="text-sm text-red-500">
+                <span *ngIf="addressFormCtrl['zipCode'].errors['required']">
+                  La codigo postal es obligatorio.
+                </span>
+
+                <span *ngIf="addressFormCtrl['zipCode'].errors?.['pattern']">
+                  El formato del codigo postal es invalido.
+                </span>
+              </div>
+            }
+          </div>
+
+          <div class="sm:col-span-2">
+            <label
+              for="address"
+              class="mb-2 block text-sm font-medium text-gray-900"
+            >
+              Dirección<strong class="text-red-500 ml-0.5">*</strong>
+            </label>
+            <input
+              formControlName="address"
+              type="text"
+              id="address"
+              class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+              placeholder="123 Main St, Apartment 4"
+              required
+            />
+            @if (submitted() && addressFormCtrl["address"].errors) {
+              <div class="text-sm text-red-500">
+
+                @if(addressFormCtrl['address'].errors['required']){
+                  <span>
+                    La dirección es obligatoria.
+                  </span>
+                }@else {
+                  <span>
+                    La dirección esta invalida o mal formateada.
+                  </span>
+                }
+              </div>
+            }
+          </div>
+          
+          @if(isError()){
+            <div class="flex items-center justify-center sm:col-span-2">
+              <span class="text-red-500">Error inesperado, no pudimos actualizar la dirección.</span>
+            </div>
+            
+          }@else{
+            <div class="flex items-center justify-center sm:col-span-2">
+              <span class="py-0.5 bg-red-500"></span>
+            </div>
+          }
+
+          <div class="sm:col-span-2">
+            <button
+              type="submit"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-[#051C2C] text-white px-5 py-2.5 text-sm font-medium hover:bg-slate-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100"
+            >
+              <!-- <svg
+                class="h-5 w-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 12h14m-7 7V5"
+                />
+              </svg> -->
+              Guardar y usar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    @if (modalLoading()) {
+      <div class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+        <svg
+          aria-hidden="true"
+          class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+          viewBox="0 0 100 101"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+            fill="currentColor"
+          />
+          <path
+            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+            fill="currentFill"
+          />
+        </svg>
+      </div>
+    }
+  </div>
+</div>

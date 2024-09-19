@@ -1,0 +1,41 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes slideDownUp {
+  0%,
+  100% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+}
+.animate-slideDownUp {
+  animation: slideDownUp 3s ease-in-out infinite;
+}
+.delay-300 {
+  animation-delay: 3s;
+}
+.delay-600 {
+  animation-delay: 6s;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+  transition: overflow 0.3s ease;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}

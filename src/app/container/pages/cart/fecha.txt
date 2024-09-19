@@ -1,0 +1,11 @@
+📦 **Estimado cliente,**
+
+Nos complace informarte que la fecha aproximada de envío para tu pedido está programada entre el **{{fechaInicioEstimada}}** y el **{{fechaFinEstimada}}**. Estamos comprometidos a asegurar que tu experiencia de compra sea excepcional y trabajamos diligentemente para preparar y enviar tu pedido lo más pronto posible.
+
+Durante este periodo, nuestro equipo estará monitoreando el proceso para garantizar la calidad y la prontitud del servicio. Recibirás una notificación tan pronto como tu pedido esté en camino, junto con los detalles para el seguimiento del envío.
+
+Agradecemos tu preferencia y paciencia. Si tienes alguna pregunta o necesitas asistencia adicional, no dudes en contactarnos.
+
+¡Gracias por elegirnos para tus compras en línea!
+
+**Equipo de [Nombre de tu Ecommerce]**

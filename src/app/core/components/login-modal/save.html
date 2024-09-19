@@ -1,0 +1,41 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent {
+  registerForm: FormGroup;
+  countries: any[] = [
+    // Añade aquí la lista de países con sus códigos
+    { name: 'Mexico', code: 'MX' },
+    { name: 'United States', code: 'US' },
+    // ... otros países
+  ];
+
+  constructor(private formBuilder: FormBuilder) {
+    this.registerForm = this.formBuilder.group({
+      // ... otros campos de formulario
+      pais: ['MX', [Validators.required]] // 'MX' es el valor por defecto para México
+    });
+  }
+
+  // ... métodos adicionales
+}
+
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- ... otros campos de formulario ... -->
+    <div class="form-group">
+      <label for="pais">País</label>
+      <select formControlName="pais" id="pais" required>
+        <option *ngFor="let country of countries" [value]="country.code">
+          {{ country.name }}
+        </option>
+      </select>
+    </div>
+    <!-- ... -->
+  </form>
+  

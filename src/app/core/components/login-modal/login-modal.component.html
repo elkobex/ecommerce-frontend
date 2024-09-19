@@ -1,0 +1,912 @@
+@if (isLoginModal()) {
+  <div
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50"
+  >
+    <!-- Modal container with max height for the inputs only -->
+    <div
+      class="modal-pulse relative bg-white rounded-lg w-11/12 sm:min-w-[450px] sm:w-auto"
+    >
+      <div class="rounded-lg shadow">
+        <button
+          type="button"
+          *ngIf="!modalLoading()"
+          (click)="closeModal()"
+          class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+          data-modal-toggle="successModal"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+
+        <div
+          class="modal-body py-8"
+          [ngClass]="{ 'opacity-20': modalLoading() }"
+        >
+          <div class="flex flex-col justify-center mx-auto max-w-xl">
+            <h2
+              class="mb-4 px-8 text-center text-xl md:text-2xl font-semibold text-slate-900"
+            >
+              Iniciar sesión
+            </h2>
+
+            <!-- Scrollable area for inputs only -->
+            <div class="overflow-y-auto max-h-96 pb-4">
+              <form
+                [formGroup]="loginForm"
+                (ngSubmit)="login()"
+                class="space-y-4 px-8"
+              >
+                <div bis_skin_checked="1">
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-neutral-600"
+                  >
+                    Correo electrónico
+                  </label>
+                  <div class="mt-1" bis_skin_checked="1">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      placeholder="Ingresa tu correo"
+                      class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                      formControlName="email"
+                      required
+                      pattern="^(?!.*\.\.)[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    />
+                    <div
+                      *ngIf="submitted() && loginForm.controls['email'].errors"
+                      class="text-sm text-red-500"
+                    >
+                      <p *ngIf="loginForm.controls['email'].errors['required']">
+                        El correo es obligatorio.
+                      </p>
+                      <!-- <p *ngIf="loginForm.controls['email'].errors['email']">Ingresa un correo válido.</p> -->
+                      <!-- <p *ngIf="loginForm.controls['email'].errors['email']">Ingresa un correo válido.</p> -->
+                      <p
+                        *ngIf="loginForm.controls['email'].errors?.['pattern']"
+                      >
+                        Ingresa un correo válido.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-1" bis_skin_checked="1">
+                  <label
+                    for="password"
+                    class="block text-sm font-medium text-neutral-600"
+                  >
+                    Contraseña
+                  </label>
+                  <div class="mt-1" bis_skin_checked="1">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autocomplete="current-password"
+                      placeholder="Ingresa tu contraseña"
+                      class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                      formControlName="password"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        submitted() && loginForm.controls['password'].errors
+                      "
+                      class="text-sm text-red-500"
+                    >
+                      <p
+                        *ngIf="
+                          loginForm.controls['password'].errors['required']
+                        "
+                      >
+                        La contraseña es obligatoria.
+                      </p>
+                      <p
+                        *ngIf="
+                          loginForm.controls['password'].errors['minlength']
+                        "
+                      >
+                        La contraseña debe tener al menos 6 caracteres
+                      </p>
+                      <p
+                        *ngIf="
+                          loginForm.controls['password'].errors['maxlength']
+                        "
+                      >
+                        La contraseña puede tener un maximo de 20 caracteres
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex items-center justify-end"
+                  bis_skin_checked="1"
+                >
+                  <!-- <div class="flex items-center" bis_skin_checked="1">
+                    <input
+                      id="remember-me"
+                      name="remember-me"
+                      type="checkbox"
+                      placeholder="Your password"
+                      class="w-4 h-4 text-slate-600 border-gray-200 rounded focus:ring-slate-500"
+                    />
+                    <label
+                      for="remember-me"
+                      class="block ml-2 text-sm text-neutral-800"
+                    >
+                      Recuerdame
+                    </label>
+                  </div> -->
+
+                  <div class="text-sm" bis_skin_checked="1">
+                    <a
+                      href="javascript:void(0)"
+                      (click)="toggleForm('forgetPsw')"
+                      class="font-medium text-slate-900 hover:text-slate-500"
+                    >
+                      ¿Olvidaste tu contraseña?
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            @if (loginError()) {
+              <div class="text-center px-8 mb-4">
+                <p class="text-red-500">{{ showCurrentError }}</p>
+              </div>
+            }
+
+            <div class="px-8">
+              <button
+                type="submit"
+                (click)="login()"
+                class="flex items-center justify-center w-full p-2.5 font-medium text-center text-white transition duration-500 ease-in-out transform bg-[#051C2C] rounded-xl hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+              >
+                Iniciar sesión
+              </button>
+            </div>
+
+            <!-- Static buttons outside the scrollable area -->
+            <div class="px-8">
+              <div class="relative my-4">
+                <div
+                  class="absolute inset-0 flex items-center"
+                  bis_skin_checked="1"
+                >
+                  <div
+                    class="w-full border-t border-gray-300"
+                    bis_skin_checked="1"
+                  ></div>
+                </div>
+                <div
+                  class="relative flex justify-center text-sm"
+                  bis_skin_checked="1"
+                >
+                  <span class="px-2 text-neutral-600 bg-white"> O </span>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                (click)="toggleForm('register')"
+                class="w-full items-center block p-2.5 font-medium text-center text-slate-900 transition duration-500 ease-in-out transform border border-slate-900 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 hover:border-white"
+              >
+                <div
+                  class="flex items-center justify-center"
+                  bis_skin_checked="1"
+                >
+                  <svg
+                    fill="#000000"
+                    height="1.2rem"
+                    width="1.2rem"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 328.5 328.5"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <polygon
+                          points="96.333,150.918 96.333,135.918 55.667,135.918 55.667,95.251 40.667,95.251 40.667,135.918 0,135.918 0,150.918 
+                      40.667,150.918 40.667,191.583 55.667,191.583 55.667,150.918 		"
+                        />
+                        <path
+                          d="M259.383,185.941H145.858c-38.111,0-69.117,31.006-69.117,69.117v39.928H328.5v-39.928
+                      C328.5,216.948,297.494,185.941,259.383,185.941z M313.5,279.987H91.741v-24.928c0-29.84,24.276-54.117,54.117-54.117h113.524
+                      c29.84,0,54.117,24.277,54.117,54.117L313.5,279.987L313.5,279.987z"
+                        />
+                        <path
+                          d="M202.621,178.84c40.066,0,72.662-32.597,72.662-72.663s-32.596-72.663-72.662-72.663s-72.663,32.596-72.663,72.663
+                      S162.555,178.84,202.621,178.84z M202.621,48.515c31.795,0,57.662,25.867,57.662,57.663s-25.867,57.663-57.662,57.663
+                      c-31.796,0-57.663-25.868-57.663-57.663S170.825,48.515,202.621,48.515z"
+                        />
+                      </g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                      <g></g>
+                    </g>
+                  </svg>
+                  <span class="ml-4"> Crear cuenta nueva</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="modalLoading()"
+          class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else if (isRegisterModal()) {
+  <div
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50"
+  >
+    <!-- Modal container with max height for the inputs only -->
+    <div class="modal-pulse relative bg-white rounded-lg w-11/12 sm:w-auto">
+      <div class="rounded-lg shadow">
+        <button
+          type="button"
+          *ngIf="!modalLoading()"
+          (click)="closeModal()"
+          class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+          data-modal-toggle="successModal"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+
+        <div
+          class="modal-body py-8"
+          [ngClass]="{ 'opacity-20': modalLoading() }"
+        >
+          <div class="flex flex-col justify-center mx-auto max-w-xl">
+            <h2
+              class="mb-4 px-8 text-center text-xl md:text-2xl font-semibold text-slate-900"
+            >
+              Crear cuenta
+            </h2>
+
+            <!-- Scrollable area for inputs only -->
+            <div class="overflow-y-auto max-h-96 pb-4">
+              <form
+                [formGroup]="registerForm"
+                (ngSubmit)="register()"
+                class="space-y-6 sm:space-y-8 px-8"
+              >
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <!-- NAME FIELD -->
+                  <div bis_skin_checked="1">
+                    <label
+                      for="name"
+                      class="block text-sm font-medium text-neutral-600"
+                    >
+                      Nombres
+                    </label>
+                    <div class="mt-1" bis_skin_checked="1">
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Ingresa tu nombre"
+                        class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                        formControlName="name"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          submitted() && registerForm.controls['name'].errors
+                        "
+                        class="text-sm text-red-500"
+                      >
+                        <p
+                          *ngIf="
+                            registerForm.controls['name'].errors['required']
+                          "
+                        >
+                          El nombre es obligatorio.
+                        </p>
+                        <p
+                          *ngIf="
+                            registerForm.controls['name'].errors?.['pattern']
+                          "
+                        >
+                          El formato del nombre es invalido.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- LASTNAME FIELD -->
+                  <div bis_skin_checked="1">
+                    <label
+                      for="lastName"
+                      class="block text-sm font-medium text-neutral-600"
+                    >
+                      Apellidos
+                    </label>
+                    <div class="mt-1" bis_skin_checked="1">
+                      <input
+                        id="lastName"
+                        name="lastName"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Ingresa tus apellidos"
+                        class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                        formControlName="lastName"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          submitted() &&
+                          registerForm.controls['lastName'].errors
+                        "
+                        class="text-sm text-red-500"
+                      >
+                        <p
+                          *ngIf="
+                            registerForm.controls['lastName'].errors['required']
+                          "
+                        >
+                          Los apellidos son obligatorio.
+                        </p>
+                        <p
+                          *ngIf="
+                            registerForm.controls['lastName'].errors?.[
+                              'pattern'
+                            ]
+                          "
+                        >
+                          El de los apellidos no es valido.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- EMAIL FIELD -->
+                  <div bis_skin_checked="1">
+                    <label
+                      for="email"
+                      class="block text-sm font-medium text-neutral-600"
+                    >
+                      Correo electrónico
+                    </label>
+                    <div class="mt-1" bis_skin_checked="1">
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="Ingresa tu correo"
+                        class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                        formControlName="email"
+                        required
+                        pattern="^(?!.*\.\.)[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      />
+                      <div
+                        *ngIf="
+                          submitted() && registerForm.controls['email'].errors
+                        "
+                        class="text-sm text-red-500"
+                      >
+                        <p
+                          *ngIf="
+                            registerForm.controls['email'].errors['required']
+                          "
+                        >
+                          El correo es obligatorio.
+                        </p>
+
+                        <p
+                          *ngIf="
+                            registerForm.controls['email'].errors?.['pattern']
+                          "
+                        >
+                          Ingresa un correo válido.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- PHONE FIELD -->
+                  <div bis_skin_checked="1">
+                    <label
+                      for="phone"
+                      class="block text-sm font-medium text-neutral-600"
+                    >
+                      Telefono
+                    </label>
+
+                    <div class="flex items-center">
+                      <button
+                        id="phoneNumberBtn"
+                        data-dropdown-toggle="dropdown-phone-3"
+                        class="inline-flex w-24 md:w-auto md:shrink-0 items-center rounded-s-lg border border-gray-300 bg-gray-100 px-4 py-3 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100"
+                        type="button"
+                      >
+                        <img
+                          class="h-4 rounded-sm mr-1"
+                          src="/assets/icons/mx.svg"
+                          alt=""
+                          srcset=""
+                        />
+                        +52
+                      </button>
+
+                      <div class="relative w-full">
+                        <input
+                          id="phone"
+                          name="phone"
+                          type="text"
+                          autocomplete="off"
+                          placeholder="Ingresa tu telefono"
+                          class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-e-lg bg-gray-50 focus:outline-none"
+                          maxlength="12"
+                          formControlName="phone"
+                          (input)="formatPhoneNumber($event)"
+                          (blur)="onPhoneNumberBlur()"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="
+                        submitted() && registerForm.controls['phone'].errors
+                      "
+                      class="text-sm text-red-500"
+                    >
+                      <p
+                        *ngIf="
+                          registerForm.controls['phone'].errors['required']
+                        "
+                      >
+                        El telefono es obligatorio.
+                      </p>
+
+                      <p
+                        *ngIf="
+                          registerForm.controls['phone'].errors[
+                            'requiredLength'
+                          ]
+                        "
+                      >
+                        El telefono esta incompleto.
+                      </p>
+
+                      <p
+                        *ngIf="
+                          registerForm.controls['phone'].errors?.['pattern']
+                        "
+                      >
+                        Ingresa un telefono valido.
+                      </p>
+                    </div>
+   
+                  </div>
+
+                  <!-- PASSWORD FIELD -->
+                  <div bis_skin_checked="1">
+                    <label
+                      for="password"
+                      class="block text-sm font-medium text-neutral-600"
+                    >
+                      Contraseña
+                    </label>
+                    <div class="mt-1" bis_skin_checked="1">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="off"
+                        placeholder="Nueva contraseña"
+                        class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                        formControlName="password"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          submitted() &&
+                          registerForm.controls['password'].errors
+                        "
+                        class="text-sm text-red-500"
+                      >
+                        <p
+                          *ngIf="
+                            registerForm.controls['password'].errors['required']
+                          "
+                        >
+                          La contraseña es obligatoria.
+                        </p>
+                        <p
+                          *ngIf="
+                            registerForm.controls['password'].errors[
+                              'minlength'
+                            ]
+                          "
+                        >
+                          Minimo 6 caracteres
+                        </p>
+                        <p
+                          *ngIf="
+                            registerForm.controls['password'].errors[
+                              'maxlength'
+                            ]
+                          "
+                        >
+                          Maximo 20 caracteres
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- CONFIRM PASSWORD FIELD -->
+                  <div bis_skin_checked="1">
+                    <label
+                      for="confirmPassword"
+                      class="block text-sm font-medium text-neutral-600"
+                    >
+                      Confirmar contraseña
+                    </label>
+                    <div class="mt-1" bis_skin_checked="1">
+                      <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        autocomplete="off"
+                        placeholder="Confirma contraseña"
+                        class="block w-full p-2.5 text-base text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                        formControlName="confirmPassword"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          submitted() &&
+                          registerForm.controls['confirmPassword'].errors
+                        "
+                        class="text-sm text-red-500"
+                      >
+                        <p
+                          *ngIf="
+                            registerForm.controls['confirmPassword'].errors[
+                              'required'
+                            ]
+                          "
+                        >
+                          La contraseña es obligatoria.
+                        </p>
+                        <p
+                          *ngIf="
+                            registerForm.controls['confirmPassword'].errors[
+                              'minlength'
+                            ]
+                          "
+                        >
+                          Minimo 6 caracteres
+                        </p>
+                        <p
+                          *ngIf="
+                            registerForm.controls['confirmPassword'].errors[
+                              'maxlength'
+                            ]
+                          "
+                        >
+                          Maximo 20 caracteres
+                        </p>
+
+                        <p
+                          *ngIf="
+                            registerForm.controls['confirmPassword'].errors[
+                              'confirmedValidator'
+                            ]
+                          "
+                        >
+                          Las contraseñas deben coincidir
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="my-2 sm:my-1"></div>
+
+            @if (registerError()) {
+              <div class="text-center px-8 mb-4">
+                <p class="text-red-500">{{ showCurrentError }}</p>
+              </div>
+            }
+
+            <!-- Static buttons outside the scrollable area -->
+            <div class="px-8">
+              <div>
+                <button
+                  type="submit"
+                  (click)="register()"
+                  class="w-full p-2.5 font-medium text-center text-white bg-[#051C2C] rounded-xl hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500"
+                >
+                  Crear cuenta
+                </button>
+              </div>
+
+              <div class="relative my-4 px-8">
+                <div class="absolute inset-0 flex items-center">
+                  <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                  <span class="px-2 text-neutral-600 bg-white"> O </span>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                (click)="toggleForm('login')"
+                class="w-full p-2.5 font-medium text-center text-slate-900 border border-slate-900 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-500 hover:border-white"
+              >
+                Iniciar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="modalLoading()"
+          class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else if (isForgetPswModal()) {
+  <div
+    class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50"
+  >
+    <!-- Modal container with max height for the inputs only -->
+    <div
+      class="modal-pulse relative bg-white rounded-lg w-11/12 sm:max-w-[450px]"
+    >
+      <div class="rounded-lg shadow">
+        <button
+          type="button"
+          *ngIf="!modalLoading()"
+          (click)="closeModal()"
+          class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+          data-modal-toggle="successModal"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+
+        <div
+          class="modal-body py-8"
+          [ngClass]="{ 'opacity-20': modalLoading() }"
+        >
+          <div class="flex flex-col justify-center mx-auto max-w-xl">
+            <h2
+              class="mb-4 px-8 text-center text-xl md:text-2xl font-semibold text-slate-900"
+            >
+              Recupera tu cuenta
+            </h2>
+
+            <div class="px-8 mb-4">
+              <p class="font-medium text-neutral-600">
+                Introduzca su correo electrónico de recuperación y le enviaremos
+                un mensaje por correo electrónico con su nueva contraseña.
+              </p>
+            </div>
+
+            <!-- Scrollable area for inputs only -->
+            <div class="overflow-y-auto max-h-96 pb-4">
+              <form
+                [formGroup]="forgetPswForm"
+                (ngSubmit)="forgetPsw()"
+                class="space-y-4 px-8"
+              >
+                <div bis_skin_checked="1">
+                  <!-- <label
+                        for="email" 
+                        class="block text-sm font-medium text-neutral-600"
+                      >
+                        Correo electrónico de recuperación
+                      </label> -->
+                  <div class="mt-1" bis_skin_checked="1">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      placeholder="Correo de recuperacion"
+                      class="block w-full p-2.5 text-neutral-800 placeholder-slate-300 transition duration-500 ease-in-out transform border border-slate-500 rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400"
+                      formControlName="email"
+                      required
+                      pattern="^(?!.*\.\.)[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    />
+                    <div
+                      *ngIf="
+                        submitted() && forgetPswForm.controls['email'].errors
+                      "
+                      class="text-sm text-red-500"
+                    >
+                      <p
+                        *ngIf="
+                          forgetPswForm.controls['email'].errors['required']
+                        "
+                      >
+                        El correo de recuperacion es obligatorio.
+                      </p>
+                      <p
+                        *ngIf="
+                          forgetPswForm.controls['email'].errors?.['pattern']
+                        "
+                      >
+                        Ingresa un correo de recuperacion válido.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            @if (forgetPswError()) {
+              <div class="text-center px-8 mb-4">
+                <p class="text-red-500">{{ showCurrentError }}</p>
+              </div>
+            }
+
+            <div class="px-8">
+              <button
+                type="submit"
+                (click)="forgetPsw()"
+                class="flex items-center justify-center w-full p-2.5 font-medium text-center text-white transition duration-500 ease-in-out transform bg-[#051C2C] rounded-xl hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
+              >
+                Enviar
+              </button>
+            </div>
+
+            <!-- Static buttons outside the scrollable area -->
+            <div class="px-8">
+              <div class="relative my-4">
+                <div
+                  class="absolute inset-0 flex items-center"
+                  bis_skin_checked="1"
+                >
+                  <div
+                    class="w-full border-t border-gray-300"
+                    bis_skin_checked="1"
+                  ></div>
+                </div>
+                <div
+                  class="relative flex justify-center text-sm"
+                  bis_skin_checked="1"
+                >
+                  <span class="px-2 text-neutral-600 bg-white"> O </span>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                (click)="toggleForm('login')"
+                class="w-full items-center block px-10 py-2.5 text-base font-medium text-center text-slate-900 transition duration-500 ease-in-out transform border border-slate-900 shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 hover:border-white"
+              >
+                <span>Ya tengo cuenta</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="modalLoading()"
+          class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+}
